@@ -1,11 +1,12 @@
 
 
 class Zombie:
-    def __init__(self,speed,size,word,location):
+    def __init__(self,speed,size,word,location,image):
         self.speed = speed
         self.size = size
         self.word = word
         self.location = location
+        self.image = image
 
     def changeSpeed(self,newSpeed):
         self.speed = newSpeed
@@ -18,3 +19,5 @@ class Zombie:
 
     def changeLocation(self, newLocation):
         self.location = newLocation
+    def changeSprite(self,image):
+        self.image = image
