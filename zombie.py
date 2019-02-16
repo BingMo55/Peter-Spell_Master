@@ -1,7 +1,7 @@
 import pygame
 _ZOMBIE_SPEED = 0.01
-_ZOMBIE_WIDTH = 0.10
-_ZOMBIE_HEIGHT = 0.10
+_ZOMBIE_WIDTH = 0.010
+_ZOMBIE_HEIGHT = 0.010
 
 class Zombie(pygame.sprite.Sprite):
     def __init__(self, word):
@@ -10,7 +10,7 @@ class Zombie(pygame.sprite.Sprite):
         self._height = _ZOMBIE_HEIGHT
         self._speed = _ZOMBIE_SPEED
         self.top_left_x = 1 - self._width / 2
-        self.top_left_y = 0.7 - self._height / 2
+        self.top_left_y = 0.4 - self._height / 2
         self._word = word
         
         self.index = 0
