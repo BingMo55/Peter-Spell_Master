@@ -46,7 +46,7 @@ class DefenseGameUI:
         ''' Convert Fractional Coordinate of X to Pixel X Coordinate '''
         return self._frac_to_pixel(frac_x, self._surface.get_width())
 
-    def _frac_x_to_pixel_x(self, frac_y: float) ->int:
+    def _frac_y_to_pixel_y(self, frac_y: float) ->int:
         ''' Convert Fractional Coordinate of Y to Pixel Y Coordinate '''
         return self._frac_to_pixel(frac_y, self._surface.get_height())
 
