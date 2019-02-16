@@ -3,9 +3,7 @@ import pygame
 _FRAME_RATE = 30
 _INITIAL_WIDTH = 1024
 _INITIAL_HEIGHT = 723
-_BACKGROUND_COLOR = pygame.color(255,255,255)
-
-
+_BACKGROUND_COLOR = pygame.Color(255, 255, 255)
 
 class DefenseGameUI:
     def __init__(self):
@@ -18,12 +16,24 @@ class DefenseGameUI:
 
         try:
             clock = pygame.time.Clock()
-            self.__create_surface((_INITITAL_WIDTH, _INITIAL_HEIGHT))
+            self._create_surface((_INITIAL_WIDTH, _INITIAL_HEIGHT))
 
             while self._running:
                 clock.tick(_FRAME_RATE)
+                self._draw_frame()
+                self._handle_events()
         finally:
             pygame.quit()
+
+    def _handle_events(self) -> None:
+        for event in pygame.event.get():
+            self._handle_event(event)
+
+    def _handle_event(self, event) -> None:
+        if event.type == pygame.QUIT:
+            self._running = False
+        elif event.type == pygame.VIDEORESIZE:
+            self._create_surface(event.size)
 
     def _create_surface(self, size: (int, int)) -> None:
         self._surface = pygame.display.set_mode(size, pygame.RESIZABLE)
@@ -45,5 +55,5 @@ class DefenseGameUI:
 
 
 if __name__ == '__main__':
-    DefenseGameUI.run()
+    DefenseGameUI().run()
         
