@@ -14,10 +14,12 @@ class DefenseGameUI:
         # Sprites
         self.my_sprite = self._state.zombie()
         self.my_group = pygame.sprite.Group(self.my_sprite)
-        
-        
+
         # Images
-        self._zombieImages = [pygame.image.load('images/walk1.jpg'), pygame.image.load('images/walk2.jpg'), pygame.image.load('images/walk3.jpg'), pygame.image.load('images/walk4.jpg')]
+        self._zombieImages = [pygame.image.load('images/walk1.jpg'),\
+                              pygame.image.load('images/walk2.jpg'),\
+                              pygame.image.load('images/walk3.jpg'),\
+                              pygame.image.load('images/walk4.jpg')]
 
 
     def run(self) -> None:
