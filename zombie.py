@@ -4,13 +4,13 @@ _ZOMBIE_HEIGHT = 0.10
 
 
 class Zombie:    
-    def __init__(self):
+    def __init__(self, wordProblem: 'Class WordProblem()'):
         self._width = _ZOMBIE_WIDTH
         self._height = _ZOMBIE_HEIGHT
         self._speed = _ZOMBIE_SPEED
         self.top_left_x = 1 - self._width / 2
         self.top_left_y = 0.7 - self._height / 2
-        self._word = None
+        self._word = wordProblem
 
     def top_left(self) -> (float, float):
         ''' Return Position of the zombie in a tuple '''
@@ -45,9 +45,3 @@ class Zombie:
         tl_x = self.top_left_x
         new_x = tl_x + delta_x
         self.top_left_x = new_x
-
-
-
-x = Zombie()
-
-print(x.getWidth())
