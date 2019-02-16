@@ -16,10 +16,10 @@ class DefenseGameUI:
         self.my_group = pygame.sprite.Group(self.my_sprite)
 
         # Images
-        self._zombieImages = [pygame.image.load('images/walk1.jpg'),\
-                              pygame.image.load('images/walk2.jpg'),\
-                              pygame.image.load('images/walk3.jpg'),\
-                              pygame.image.load('images/walk4.jpg')]
+        self._zombieImages = [pygame.image.load('images/walk1.png'),\
+                              pygame.image.load('images/walk2.png'),\
+                              pygame.image.load('images/walk3.png'),\
+                              pygame.image.load('images/walk4.png')]
 
 
     def run(self) -> None:
@@ -61,16 +61,17 @@ class DefenseGameUI:
         zombie_x, zombie_y =  self._state.zombie().top_left()
         widthFrac = self._state.zombie().getWidth()
         heightFrac = self._state.zombie().getHeight()
-
         top_left_pixel_x = self._frac_x_to_pixel_x(zombie_x)
         top_left_pixel_y = self._frac_y_to_pixel_y(zombie_y)
         width_pixel = self._frac_x_to_pixel_x(widthFrac)
         height_pixel = self._frac_y_to_pixel_y(heightFrac)
-        zombieRectangle = pygame.Rect(top_left_pixel_x, top_left_pixel_y, width_pixel, height_pixel)
-        self.my_group.update(self._zombieImages, zombieRectangle, top_left_pixel_x)
 
-        
-        
+        zombieRectangle = pygame.Rect(top_left_pixel_x, top_left_pixel_y, width_pixel, height_pixel)
+        zombieImage = self._zombieImages[self._state.zombie().chooseImageIndex(self._zombieImages)]
+        sendImage = pygame.transform.scale(zombieImage,(width_pixel, height_pixel))
+
+        self.my_group.update(sendImage, zombieRectangle, top_left_pixel_x)
+
 
     def _frac_x_to_pixel_x(self, frac_x: float) -> int:
         ''' Convert Fractional Coordinate of X to Pixel X Coordinate '''
@@ -86,4 +87,3 @@ class DefenseGameUI:
 
 if __name__ == '__main__':
     DefenseGameUI().run()
-        

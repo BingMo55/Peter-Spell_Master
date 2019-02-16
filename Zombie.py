@@ -1,7 +1,7 @@
 import pygame
 _ZOMBIE_SPEED = 0.01
-_ZOMBIE_WIDTH = 0.010
-_ZOMBIE_HEIGHT = 0.010
+_ZOMBIE_WIDTH = 0.080
+_ZOMBIE_HEIGHT = 0.080
 
 class Zombie(pygame.sprite.Sprite):
     def __init__(self, word):
@@ -10,22 +10,25 @@ class Zombie(pygame.sprite.Sprite):
         self._height = _ZOMBIE_HEIGHT
         self._speed = _ZOMBIE_SPEED
         self.top_left_x = 1 - self._width / 2
-        self.top_left_y = 0.4 - self._height / 2
+        self.top_left_y = 0.7 - self._height / 2
         self._word = word
         
         self.index = 0
 
-    def update(self, Images: 'List of Images', Rectangle: 'Pygame Rectangle', posX: int):
+    def update(self, Image: 'The Pictur of the image', Rectangle: 'Pygame Rectangle', posX: int):
         self.rect = Rectangle
-        self.index += 1
-        if self.index >= len(Images):
-            self.index = 0
-        self.image = Images[self.index]
-
+        self.image = Image
         ## Barrier For Now
         if posX > 0:
             self.move_left()
-        
+
+    def chooseImageIndex(self, Images: 'List of Zombies'):
+        self.index += 1
+        if self.index == len(Images):
+            self.index = 0
+        return self.index
+
+
     def top_left(self) -> (float, float):
         ''' Return Position of the zombie in a tuple '''
         return (self.top_left_x, self.top_left_y)
@@ -59,4 +62,5 @@ class Zombie(pygame.sprite.Sprite):
         tl_x = self.top_left_x
         new_x = tl_x + delta_x
         self.top_left_x = new_x
+
 
