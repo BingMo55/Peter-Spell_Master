@@ -1,14 +1,11 @@
+_ZOMBIE_SPEED = 0.01
+_ZOMBIE_WIDTH = 0.10
+_ZOMBIE_HEIGHT = 0.10
 
 
-
-class Zombie:
-    
-    _ZOMBIE_SPEED = 0.01
-    _ZOMBIE_WIDTH = 0.10
-    _ZOMBIE_HEIGHT = 0.10
-    
+class Zombie:    
     def __init__(self):
-        self._width = ZOMEBIE_WIDTH
+        self._width = _ZOMBIE_WIDTH
         self._height = _ZOMBIE_HEIGHT
         self._speed = _ZOMBIE_SPEED
         self.top_left_x = 1 - self._width / 2
@@ -48,3 +45,9 @@ class Zombie:
         tl_x = self.top_left_x
         new_x = tl_x + delta_x
         self.top_left_x = new_x
+
+
+
+x = Zombie()
+
+print(x.getWidth())
