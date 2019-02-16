@@ -7,7 +7,7 @@ import WordProblem
 
 
 class DefenseGameState:
-    def self.__init__(self):
+    def __init__(self):
         ''' Initializes the GameState '''
         self._player = Player.Player()
         self._words = WordProblem.WordProblem()
