@@ -22,18 +22,18 @@ class WordProblem:
             self._numberSolvedChar += 1
             self._checkIfSolved()
 
-    def isSolved(self):
+    def isSolved(self) -> bool:
         '''Return True if word has been spelled correctly'''
         return self._isSolved
 
-    def word(self):
+    def word(self) -> str:
         '''Return the word to solve'''
         return self._word
 
-    def width(self):
+    def width(self) -> float:
         return _WORDPROBLEM_WIDTH
 
-    def height(self):
+    def height(self) -> float:
         return _WORDPROBLEM_HEIGHT
 
     def _checkIfSolved(self):
