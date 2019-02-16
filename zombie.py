@@ -1,23 +1,50 @@
 
 
+
 class Zombie:
-    def __init__(self,speed,size,word,location,image):
-        self.speed = speed
-        self.size = size
-        self.word = word
-        self.location = location
-        self.image = image
+    
+    _ZOMBIE_SPEED = 0.01
+    _ZOMBIE_WIDTH = 0.10
+    _ZOMBIE_HEIGHT = 0.10
+    
+    def __init__(self):
+        self._width = ZOMEBIE_WIDTH
+        self._height = _ZOMBIE_HEIGHT
+        self._speed = _ZOMBIE_SPEED
+        self.top_left_x = 1 - self._width / 2
+        self.top_left_y = 0.7 - self._height / 2
+        self._word = None
 
+    def top_left(self) -> (float, float):
+        ''' Return Position of the zombie in a tuple '''
+        return (self.top_left_x, self.top_left_y)
+
+    def getWidth(self) -> float:
+        ''' Get Width '''
+        return self._width
+
+    def getHeight(self) -> float:
+        ''' Get Height '''
+        return self._height
+    
+    def getWord(self) -> str:
+        ''' Get Word '''
+        return self._word
+
+    def move_left(self) -> None:
+        ''' Zombie Move to Left '''
+        self._move(-self._speed)
+        
     def changeSpeed(self,newSpeed):
-        self.speed = newSpeed
-
-    def changeSize(self,newSize):
-        self.size = newSize
+        ''' Change Speed '''
+        self._speed = newSpeed
 
     def changeWord(self, newWord):
-        self.word = newWord
-
-    def changeLocation(self, newLocation):
-        self.location = newLocation
-    def changeSprite(self,image):
-        self.image = image
+        ''' Change Word '''
+        self._word = newWord
+        
+    def _move(self, delta_x: float) -> None:
+        ''' Zombie Move (Private Function)'''
+        tl_x = self.top_left_x
+        new_x = tl_x + delta_x
+        self.top_left_x = new_x
