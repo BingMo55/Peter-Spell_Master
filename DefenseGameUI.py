@@ -17,7 +17,7 @@ class DefenseGameUI:
         # Images
         self.bg = pygame.image.load('images/background.png')
         self.castle = pygame.image.load('images/castle.png')
-        
+        self.mainMenuEnable = True
         self._zombieImages = [pygame.image.load('images/walk1.png'),\
                               pygame.image.load('images/walk2.png'),\
                               pygame.image.load('images/walk3.png'),\
@@ -36,8 +36,10 @@ class DefenseGameUI:
             count = 0
             while self._running:
                 clock.tick(_FRAME_RATE)
-                if count % 50 == 0:
-                    self._state.loadZombie()
+                if not self.mainMenuEnable:
+                    if count % 50 == 0:
+                        self._state.loadZombie()
+                    self._state.zombieInvade()
                 self._draw_frame()
                 self._handle_events()
                 count += 1
@@ -54,8 +56,14 @@ class DefenseGameUI:
         elif event.type == pygame.VIDEORESIZE:
             self._create_surface(event.size)
         elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                if self.mainMenuEnable:
+                    self.mainMenuEnable = False
+        elif event.type == pygame.KEYDOWN:
             stringKey = pygame.key.name(event.key)
             self._state.check_character(stringKey)
+
+
 
     def _create_surface(self, size: (int, int)) -> None:
         self._surface = pygame.display.set_mode(size)
@@ -73,10 +81,13 @@ class DefenseGameUI:
         
 
     def _draw_frame(self) -> None:
-        self._surface.blit(self.bg,(0,0))
-        self._surface.blit(self.castle,(0,220))
-        self._draw_zombies()
-        pygame.display.flip()
+        if self.mainMenuEnable:
+            self._draw_mainMenu()
+        else:
+            self._surface.blit(self.bg,(0,0))
+            self._surface.blit(self.castle,(0,220))
+            self._draw_zombies()
+            pygame.display.flip()
 
     def _draw_zombies(self) -> None:
         for z in self._state.getZombies():
@@ -110,6 +121,15 @@ class DefenseGameUI:
     def _frac_to_pixel(self, frac: float, max_pixel: int) -> int:
         return int(frac*max_pixel)
 
+    def _draw_mainMenu(self):
+        self._surface.fill(_BACKGROUND_COLOR)
+        basicfont = pygame.font.SysFont("Orator Std", 48)
+        text = basicfont.render('Space to start game!', True, (255, 0, 0), (255, 255, 0))
+        textrect = text.get_rect()
+        textrect.centerx = self._surface.get_rect().centerx
+        textrect.centery = self._surface.get_rect().centery
+        self._surface.blit(text, textrect)
+        pygame.display.flip()
 
 if __name__ == '__main__':
     DefenseGameUI().run()
