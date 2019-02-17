@@ -42,6 +42,7 @@ class DefenseGameUI:
                 if not self.mainMenuEnable:
                     if count % 50 == 0:
                         self._state.loadZombie()
+                    self._state.zombieInvade()
                 self._draw_frame()
                 self._handle_events()
                 count += 1
