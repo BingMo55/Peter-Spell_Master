@@ -11,6 +11,8 @@ class DefenseGameState:
         self._player = Player.Player()
         # zombies list implemented as queue -> first zombie in is first zombie
         # out when a zombie dies
+        self._inputStr = ""
+        
         self._zombies = []
         self._shop = None
 
@@ -38,11 +40,13 @@ class DefenseGameState:
     def check_character(self, charKey):
         ''' Checks the valid character in the Zombie[0] '''
         if len(self._zombies) > 0:
+            self._inputStr += charKey
             needMatch = self._zombies[0].getWordProblem()
-            print(needMatch.word())
             needMatch.inputChar(charKey)
+            if needMatch.ZeroSolvedChar():
+                self._inputStr = ""
             if needMatch.checkIfSolved():
-                print("is Complete")
+                self._inputStr = ""
                 self._zombies.remove(self._zombies[0])
 
         
