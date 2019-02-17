@@ -17,6 +17,7 @@ class DefenseGameUI:
         # Images
         self.bg = pygame.image.load('images/background.png')
         self.castle = pygame.image.load('images/castle.png')
+        self.menubg = pygame.image.load('images/homeBackground.png')
         self.mainMenuEnable = True
         self._zombieImages = [pygame.image.load('images/walk1.png'),\
                               pygame.image.load('images/walk2.png'),\
@@ -44,12 +45,9 @@ class DefenseGameUI:
                         self._state._zombies[-1].zombieColor = self._nextZombie % 2
                         self._nextZombie += 1
                     self._state.zombieInvade()
-                if self._state.isAlive():
-                    self._draw_frame()
-                    self._handle_events()
-                    count += 1
-                else:
-                    self._running = False
+                self._draw_frame()
+                self._handle_events()
+                count += 1
         finally:
             pygame.quit()
 
@@ -77,7 +75,7 @@ class DefenseGameUI:
         # resizing not implemented completely
         bg_x = self._frac_x_to_pixel_x(1024 / self._surface.get_width())
         bg_y = self._frac_y_to_pixel_y(750 / self._surface.get_height())
-        
+
         self.bg = pygame.transform.scale(self.bg,(bg_x, bg_y))
 
         castle_x = 300 / self._surface.get_width()
@@ -85,7 +83,7 @@ class DefenseGameUI:
         x = self._frac_x_to_pixel_x(castle_x)
         y = self._frac_y_to_pixel_y(castle_y)
         self.castle = pygame.transform.scale(self.castle, (x, y))
-        
+
 
     def _draw_frame(self) -> None:
         if self.mainMenuEnable:
@@ -100,7 +98,7 @@ class DefenseGameUI:
     def _draw_zombies(self) -> None:
         for z in self._state.getZombies():
             self._draw_zombie(z)
-  
+
 
     def _draw_zombie(self, z) -> None:
         zombie_x, zombie_y =  z.top_left()
@@ -119,13 +117,12 @@ class DefenseGameUI:
         else:
             zombieImage = self._greenZombieImages[z.chooseImageIndex(self._greenZombieImages)]
 
-        # can remove cuz zombies not scaling -> move to createsurface    
+        # can remove cuz zombies not scaling -> move to createsurface
         sendImage = pygame.transform.scale(zombieImage,(width_pixel, height_pixel))
 
         # WORD RECTANGLE
         # wordRectangle = pygame.Rect(top_left_pixel_x,top_left_pixel_y+20)
         self._draw_text(z,top_left_pixel_x,top_left_pixel_y)
-
         z.update()
         self._surface.blit(sendImage, zombieRectangle)
 
@@ -141,34 +138,38 @@ class DefenseGameUI:
         return int(frac*max_pixel)
 
     def _draw_mainMenu(self):
-        self._surface.fill(_BACKGROUND_COLOR)
-        basicfont = pygame.font.Font("ARCADECLASSIC.ttf", 48)
-        word = "default Word"
-        text = basicfont.render(word, True, (255, 0, 0), (255, 255, 0))
+
+        basicfont = pygame.font.Font("cheddar_jack.ttf", 48)
+        word = "Press Spacebor to Begin"
+        text = basicfont.render(word, True, (44, 78, 115))
         textrect = text.get_rect()
-        textrect.centerx += self._surface.get_rect().centerx
-        textrect.centery = self._surface.get_rect().centery
+        textrect.centerx = self._surface.get_rect().centerx
+        textrect.centery = self._surface.get_rect().centery+300
+        self.menubg = pygame.transform.scale(self.menubg,(1024,723))
+        self._surface.blit(self.menubg,(0,0))
         self._surface.blit(text, textrect)
         pygame.display.flip()
 
     def _draw_text(self,z,x,y):
-        basicfont = pygame.font.Font("ARCADECLASSIC.ttf", 48)
+        basicfont = pygame.font.Font("Poppins.ttf", 25)
         word = z.getWordProblem().word()
         text = basicfont.render(word, True, (0, 0, 0), (255, 255, 255))
         textrect = text.get_rect()
         textrect.centerx = x + 50
         textrect.centery = y - 20
+
         self._surface.blit(text, textrect)
 
     def _draw_cloud(self):
         basicfont = pygame.font.Font("ARCADECLASSIC.ttf", 35)
         word = self._state._inputStr
 
-        text = basicfont.render(word, True, (0, 0, 0), (255, 255, 255))
+        text = basicfont.render(word, True, (0, 0, 0))
         textrect = text.get_rect()
         textrect.centerx = self._surface.get_rect().centerx
         textrect.centery = 50
         self._surface.blit(text, textrect)
+
 
 if __name__ == '__main__':
     DefenseGameUI().run()
