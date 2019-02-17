@@ -108,7 +108,7 @@ class DefenseGameUI:
             while self._running:
                 clock.tick(_FRAME_RATE)
                 if not self.mainMenuEnable:
-                    if count % 40 == 0:
+                    if count % 35 == 0:
                         self._state.loadZombie()
                         self._state._zombies[-1].zombieColor = self._nextZombie % 2
                         self._nextZombie += 1
@@ -193,6 +193,7 @@ class DefenseGameUI:
                     if self._state._zombies != []:
                         self._state.incScore()
                         self._state._zombies.remove(self._state._zombies[0])
+                        self._state._zombieSpeed += 0.00165
                     self._state.reverseBolt()
                     self._zombieRemovalClock = 0
 

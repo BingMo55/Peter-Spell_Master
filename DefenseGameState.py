@@ -75,18 +75,16 @@ class DefenseGameState:
                     self.reverseBolt()
                     self._zombies[0].reverseShocked()
                     self._inputStr = ""
-                    self._zombieSpeed += 0.00350
-                    self.changeZombiesSpeed(self._zombieSpeed)
                 else:
                     needMatch.makeSolZero()
                     self._inputStr = ""
-                    self.changeZombiesSpeed(0.005)
+                    self.changeZombiesSpeed(0.000010)
             else:
                 needMatch.inputChar(charKey)
                 self._inputStr += charKey
                 if needMatch.ZeroSolvedChar():
                     self._inputStr = ""
-                    self.changeZombiesSpeed(0.005)
+                    self.changeZombiesSpeed(0.000010)
 
     def changeZombiesSpeed(self, speed):
         for i in self._zombies:
