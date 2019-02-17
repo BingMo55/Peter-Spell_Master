@@ -15,6 +15,7 @@ class DefenseGameUI:
         self._nextZombie = 0
         self.mainMenuEnable = True
 
+
         # Images
         self.bg = pygame.image.load('images/background.png')
         self.castle = pygame.image.load('images/castle/castle.png')
@@ -36,6 +37,12 @@ class DefenseGameUI:
                     pygame.image.load('images/green2.png'),\
                     pygame.image.load('images/green3.png'),\
                     pygame.image.load('images/green4.png')]
+        #static menu animations init
+        self.zombieSprite = staticZombieMovement()
+        self.zombieStatic = pygame.sprite.Group(self.zombieSprite)
+
+        self.peterSprite = staticPeterMovement()
+        self.peterRotate = pygame.sprite.Group(self.peterSprite)
 
     def run(self) -> None:
         pygame.init()
@@ -53,6 +60,7 @@ class DefenseGameUI:
                         self._state._zombies[-1].zombieColor = self._nextZombie % 2
                         self._nextZombie += 1
                     self._state.zombieInvade()
+
                 if self._state.isAlive():
                     self._draw_frame()
                     self._handle_events()
@@ -159,6 +167,12 @@ class DefenseGameUI:
         self.menubg = pygame.transform.scale(self.menubg,(1024,723))
         self._surface.blit(self.menubg,(0,0))
         self._surface.blit(text, textrect)
+
+        #animate static
+        self.zombieStatic.update()
+        self.zombieStatic.draw(self._surface)
+        self.peterRotate.update()
+        self.peterRotate.draw(self._surface)
         pygame.display.flip()
 
     def _draw_text(self,z,x,y):
@@ -180,6 +194,47 @@ class DefenseGameUI:
         textrect.centerx = self._surface.get_rect().centerx
         textrect.centery = 50
         self._surface.blit(text, textrect)
+
+
+class staticZombieMovement(pygame.sprite.Sprite):
+    def __init__(self):
+        super(staticZombieMovement, self).__init__()
+        self.images = []
+        self.images.append(pygame.image.load('images/walk1.png'))
+        self.images.append(pygame.image.load('images/walk2.png'))
+        self.images.append(pygame.image.load('images/walk3.png'))
+        self.images.append(pygame.image.load('images/walk4.png'))
+        self.index = 0
+        self.image = self.images[self.index]
+        self.rect = pygame.Rect(700, 500, 50, 50)
+
+    def update(self):
+        self.index += 1
+        if self.index >= len(self.images):
+            self.index = 0
+
+        self.image = self.images[self.index]
+        self.image = pygame.transform.scale(self.image,(200,200))
+
+class staticPeterMovement(pygame.sprite.Sprite):
+    def __init__(self):
+        super(staticPeterMovement,self).__init__()
+        self.images = []
+        self.images.append(pygame.image.load('images/peter/peter1.png'))
+        self.images.append(pygame.image.load('images/peter/peter2.png'))
+        self.images.append(pygame.image.load('images/peter/peter3.png'))
+        self.images.append(pygame.image.load('images/peter/peter4.png'))
+        self.index = 0
+        self.image = self.images[self.index]
+        self.rect = pygame.Rect(120,550, 50, 50)
+
+    def update(self):
+        self.index += 1
+        if self.index >= len(self.images):
+            self.index = 0
+
+        self.image = self.images[self.index]
+        self.image = pygame.transform.scale(self.image, (150, 150))
 
 
 if __name__ == '__main__':
