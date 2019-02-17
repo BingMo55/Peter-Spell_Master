@@ -18,8 +18,7 @@ class Zombie(pygame.sprite.Sprite):
 
     def update(self):
         ## Barrier For Now
-        if self.top_left_x > .09:
-            self.move_left()
+        self.move_left()
 
     def chooseImageIndex(self, Images: 'List of Zombies'):
         self.index += 1

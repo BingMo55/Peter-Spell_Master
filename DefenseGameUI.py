@@ -38,6 +38,7 @@ class DefenseGameUI:
                 clock.tick(_FRAME_RATE)
                 if count % 50 == 0:
                     self._state.loadZombie()
+                self._state.zombieInvade()
                 self._draw_frame()
                 self._handle_events()
                 count += 1
