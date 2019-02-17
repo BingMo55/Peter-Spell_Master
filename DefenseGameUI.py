@@ -138,12 +138,12 @@ class DefenseGameUI:
                     self._state._isAlive = True
                     self._state._life = 3
                     self._state._zombies = []
-
-
             else:
                 stringKey = pygame.key.name(event.key)
                 self._state.check_character(stringKey)
 
+            if event.key == pygame.K_ESCAPE:
+                self._running = False
 
     def _create_surface(self, size: (int, int)) -> None:
         self._surface = pygame.display.set_mode(size)
@@ -252,15 +252,15 @@ class DefenseGameUI:
 
     def _draw_mainMenu(self):
 
-        basicfont = pygame.font.Font("cheddar_jack.ttf", 48)
-        word = "Press Spacebor to Begin"
-        text = basicfont.render(word, True, (44, 78, 115))
-        textrect = text.get_rect()
-        textrect.centerx = self._surface.get_rect().centerx
-        textrect.centery = self._surface.get_rect().centery+300
+        # basicfont = pygame.font.Font("cheddar_jack.ttf", 48)
+        # word = "Press Spacebor to Begin"
+        # text = basicfont.render(word, True, (44, 78, 115))
+        # textrect = text.get_rect()
+        # textrect.centerx = self._surface.get_rect().centerx
+        # textrect.centery = self._surface.get_rect().centery+300
         self.menubg = pygame.transform.scale(self.menubg,(1024,723))
         self._surface.blit(self.menubg,(0,0))
-        self._surface.blit(text, textrect)
+        # self._surface.blit(text, textrect)
         # update peter and zombie
         self.zombieGroup.update()
         self.zombieGroup.draw(self._surface)
