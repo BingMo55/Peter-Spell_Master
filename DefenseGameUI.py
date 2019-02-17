@@ -10,10 +10,10 @@ class DefenseGameUI:
     def __init__(self):
         self._running = True
         self._state = DefenseGameState.DefenseGameState()
-
         # current method of choosing zombie = mod by 2 where 0=pink, 1=green
         self._nextZombie = 0
         self.mainMenuEnable = True
+        self.gameOver = False
 
         # Images
         self.bg = pygame.image.load('images/background.png')
@@ -21,6 +21,7 @@ class DefenseGameUI:
         self.menubg = pygame.image.load('images/homeBackground.png')
         self.thunderCloud = pygame.image.load('images/thunder.png')
         self.textBox = pygame.image.load('images/rectangle.png')
+        self.endGameImg = pygame.image.load('images/GameOverBackground.png')
 
         self._peterImages = [pygame.image.load('images/peter/peter1.png'), \
                        pygame.image.load('images/peter/peter2.png'),\
@@ -46,7 +47,12 @@ class DefenseGameUI:
         self._heartImages[1] = pygame.transform.scale(self._heartImages[1], (100, 17))
         self._heartImages[2] = pygame.transform.scale(self._heartImages[2], (100, 17))
 
+        #create init class
+        zombieSprite = staticZombieMovement()
+        self.zombieGroup = pygame.sprite.Group(zombieSprite)
 
+        peterSprite = staticPeterMovement()
+        self.peterGroup = pygame.sprite.Group(peterSprite)
     def run(self) -> None:
         pygame.init()
 
@@ -63,12 +69,15 @@ class DefenseGameUI:
                         self._state._zombies[-1].zombieColor = self._nextZombie % 2
                         self._nextZombie += 1
                     self._state.zombieInvade()
+
                 if self._state.isAlive():
                     self._draw_frame()
                     self._handle_events()
                     count += 1
                 else:
-                    self._running = False
+                    self._handle_events()
+                    self.endGame()
+
         finally:
             pygame.quit()
 
@@ -85,6 +94,12 @@ class DefenseGameUI:
             if event.key == pygame.K_SPACE:
                 if self.mainMenuEnable:
                     self.mainMenuEnable = False
+                if not self._state.isAlive():
+                    self._state._isAlive = True
+                    self._state._life = 3
+                    self._state._zombies = []
+
+
             else:
                 stringKey = pygame.key.name(event.key)
                 self._state.check_character(stringKey)
@@ -174,6 +189,11 @@ class DefenseGameUI:
         self.menubg = pygame.transform.scale(self.menubg,(1024,723))
         self._surface.blit(self.menubg,(0,0))
         self._surface.blit(text, textrect)
+        # update peter and zombie
+        self.zombieGroup.update()
+        self.zombieGroup.draw(self._surface)
+        self.peterGroup.update()
+        self.peterGroup.draw(self._surface)
         pygame.display.flip()
 
     def _draw_text(self,z,x,y):
@@ -199,6 +219,51 @@ class DefenseGameUI:
         textrect.centery = 150
         self._surface.blit(self.thunderCloud, (400,60))
         self._surface.blit(text, textrect)
+
+    def endGame(self):
+        self.endGameImg = pygame.transform.scale(self.endGameImg,(1024,768))
+        self._surface.blit(self.endGameImg,(0,0))
+        pygame.display.flip()
+
+class staticZombieMovement(pygame.sprite.Sprite):
+    def __init__(self):
+        super(staticZombieMovement, self).__init__()
+        self.images = []
+        self.images.append(pygame.image.load('images/walk1.png'))
+        self.images.append(pygame.image.load('images/walk2.png'))
+        self.images.append(pygame.image.load('images/walk3.png'))
+        self.images.append(pygame.image.load('images/walk4.png'))
+        self.index = 0
+        self.image = self.images[self.index]
+        self.rect = pygame.Rect(700, 500, 50, 50)
+
+    def update(self):
+        self.index += 1
+        if self.index >= len(self.images):
+            self.index = 0
+
+        self.image = self.images[self.index]
+        self.image = pygame.transform.scale(self.image,(200,200))
+
+class staticPeterMovement(pygame.sprite.Sprite):
+    def __init__(self):
+        super(staticPeterMovement,self).__init__()
+        self.images = []
+        self.images.append(pygame.image.load('images/mainPeter1.png'))
+        self.images.append(pygame.image.load('images/mainPeter2.png'))
+        self.images.append(pygame.image.load('images/mainPeter3.png'))
+        self.images.append(pygame.image.load('images/mainPeter4.png'))
+        self.index = 0
+        self.image = self.images[self.index]
+        self.rect = pygame.Rect(120,550, 50, 50)
+
+    def update(self):
+        self.index += 1
+        if self.index >= len(self.images):
+            self.index = 0
+
+        self.image = self.images[self.index]
+        self.image = pygame.transform.scale(self.image, (150, 150))
 
 
 if __name__ == '__main__':
