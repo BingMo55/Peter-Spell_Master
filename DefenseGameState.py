@@ -40,13 +40,19 @@ class DefenseGameState:
     def check_character(self, charKey):
         ''' Checks the valid character in the Zombie[0] '''
         if len(self._zombies) > 0:
-            self._inputStr += charKey
             needMatch = self._zombies[0].getWordProblem()
-            needMatch.inputChar(charKey)
-            if needMatch.ZeroSolvedChar():
-                self._inputStr = ""
             if needMatch.checkIfSolved():
-                self._inputStr = ""
-                self._zombies.remove(self._zombies[0])
+                if charKey == "return":
+                    self._inputStr = ""
+                    self._zombies.remove(self._zombies[0])
+                else:
+                    needMatch.makeSolZero()
+                    self._inputStr = ""
+            else:
+                needMatch.inputChar(charKey)
+                self._inputStr += charKey
+                if needMatch.ZeroSolvedChar():
+                    self._inputStr = ""
+
         
         
