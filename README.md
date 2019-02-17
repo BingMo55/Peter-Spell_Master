@@ -7,7 +7,7 @@
                     a.) Pygame Library - Instructions for installation can be seen here ->  https://www.webucator.com/blog/2015/03/installing-the-windows-64-bit-version-of-pygame/
           
           2.) There are two things you must know in order to run the code!
-                            b.) Everything is separated to different classes. Each one may be linked to some other file in the project.
+                    b.) Everything is separated to different classes. Each one may be linked to some other file in the project.
                       Files in the project:
                           1.) DefenseGameUI.py = is a file that holds the GUI and runs the whole game. You can run this file only by having Pygame in the library.
                           2.) DefenseGameState.py = is a file holds the game logic for the game and utilized most of the objects and classes in the game. It runs manipulates most of the object behind the scene.
@@ -17,7 +17,7 @@
                           
           3.) How to play the game? What are the controls?
               Controls:
-                      Keyboard Inputs: (a-z input, Enter, ESC, Space Bar)
+                    c.) Keyboard Inputs: (a-z input, Enter, ESC, Space Bar)
                       1.) a-z key- this keyboard input is accepted in the input buffer. The game analyzes if each character is following the path to answer the word. If not, it will automatically clear it and leave the input buffer as an empty string
                       2.) Enter key- this input is used to accept the input buffer written by the player. It checks if it matches the word and will clear the zombie if do so else the input buffer will revert back to empty string.
                       3.) Space Bar - this input is utilized for the start and end menu in order to start the game or reset the game.
