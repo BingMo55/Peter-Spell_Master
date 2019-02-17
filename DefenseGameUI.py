@@ -16,9 +16,8 @@ class DefenseGameUI:
 
         # Images
         self.bg = pygame.image.load('images/background.png')
-        self.bg = pygame.transform.scale(self.bg, (1024,750))
         self.castle = pygame.image.load('images/castle.png')
-        self.castle = pygame.transform.scale(self.castle,(300,400))
+        self.mainMenuEnable = True
         self._zombieImages = [pygame.image.load('images/walk1.png'),\
                               pygame.image.load('images/walk2.png'),\
                               pygame.image.load('images/walk3.png'),\
@@ -37,8 +36,9 @@ class DefenseGameUI:
             count = 0
             while self._running:
                 clock.tick(_FRAME_RATE)
-                if count % 50 == 0:
-                    self._state.loadZombie()
+                if not self.mainMenuEnable:
+                    if count % 50 == 0:
+                        self._state.loadZombie()
                 self._draw_frame()
                 self._handle_events()
                 count += 1
@@ -55,18 +55,38 @@ class DefenseGameUI:
         elif event.type == pygame.VIDEORESIZE:
             self._create_surface(event.size)
         elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                if self.mainMenuEnable:
+                    self.mainMenuEnable = False
+        elif event.type == pygame.KEYDOWN:
             stringKey = pygame.key.name(event.key)
             print(stringKey)
 
+
+
     def _create_surface(self, size: (int, int)) -> None:
-        self._surface = pygame.display.set_mode(size, pygame.RESIZABLE)
+        self._surface = pygame.display.set_mode(size)
+        # resizing not implemented completely
+        bg_x = self._frac_x_to_pixel_x(1024 / self._surface.get_width())
+        bg_y = self._frac_y_to_pixel_y(750 / self._surface.get_height())
+        
+        self.bg = pygame.transform.scale(self.bg,(bg_x, bg_y))
+
+        castle_x = 300 / self._surface.get_width()
+        castle_y = 400 / self._surface.get_height()
+        x = self._frac_x_to_pixel_x(castle_x)
+        y = self._frac_y_to_pixel_y(castle_y)
+        self.castle = pygame.transform.scale(self.castle, (x, y))
+        
 
     def _draw_frame(self) -> None:
-        self._surface.fill(_BACKGROUND_COLOR)
-        self._surface.blit(self.bg,(0,0))
-        self._surface.blit(self.castle,(0,220))
-        self._draw_zombies()
-        pygame.display.flip()
+        if self.mainMenuEnable:
+            self._draw_mainMenu()
+        else:
+            self._surface.blit(self.bg,(0,0))
+            self._surface.blit(self.castle,(0,220))
+            self._draw_zombies()
+            pygame.display.flip()
 
     def _draw_zombies(self) -> None:
         for z in self._state.getZombies():
@@ -86,8 +106,8 @@ class DefenseGameUI:
         zombieImage = self._zombieImages[z.chooseImageIndex(self._zombieImages)]
         sendImage = pygame.transform.scale(zombieImage,(width_pixel, height_pixel))
 
-        z.update(sendImage, zombieRectangle, top_left_pixel_x)
-        self._surface.blit(z.image, z.rect)
+        z.update()
+        self._surface.blit(sendImage, zombieRectangle)
 
     def _frac_x_to_pixel_x(self, frac_x: float) -> int:
         ''' Convert Fractional Coordinate of X to Pixel X Coordinate '''
@@ -100,6 +120,15 @@ class DefenseGameUI:
     def _frac_to_pixel(self, frac: float, max_pixel: int) -> int:
         return int(frac*max_pixel)
 
+    def _draw_mainMenu(self):
+        self._surface.fill(_BACKGROUND_COLOR)
+        basicfont = pygame.font.SysFont("Orator Std", 48)
+        text = basicfont.render('Space to start game!', True, (255, 0, 0), (255, 255, 0))
+        textrect = text.get_rect()
+        textrect.centerx = self._surface.get_rect().centerx
+        textrect.centery = self._surface.get_rect().centery
+        self._surface.blit(text, textrect)
+        pygame.display.flip()
 
 if __name__ == '__main__':
     DefenseGameUI().run()
