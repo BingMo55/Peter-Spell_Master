@@ -1,6 +1,6 @@
 _PLAYER_WIDTH = .3
 _PLAYER_HEIGHT = .4
-
+#transfer -> life, score, isAlive
 class Player:
     def __init__(self):
         top_left_x = .3 - _PLAYER_WIDTH / 2

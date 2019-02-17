@@ -14,6 +14,11 @@ class DefenseGameState:
         self._inputStr = ""
         
         self._zombies = []
+
+        self._score = 0
+        self._life = 3
+        self._isAlive = True
+        
         self._shop = None
 
     def player(self) -> Player.Player:
@@ -48,5 +53,27 @@ class DefenseGameState:
             if needMatch.checkIfSolved():
                 self._inputStr = ""
                 self._zombies.remove(self._zombies[0])
-        
-        
+
+    def score(self):
+        '''Return player life left'''
+        return self._score
+
+    def incScore(self):
+        self._score += 1
+
+    def decLife(self):
+        self._life -= 1
+        self._checkIfAlive()
+
+    def life(self):
+        '''Return player life left'''
+        return self._life
+
+    def isAlive(self):
+        '''Return True if player is still alive'''
+        return self._isAlive
+
+    def _checkIfAlive(self):
+        '''Change isAlive to False if character has 0 life left'''
+        if self._life == 0:
+            self._isAlive = False
