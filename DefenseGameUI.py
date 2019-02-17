@@ -16,9 +16,8 @@ class DefenseGameUI:
 
         # Images
         self.bg = pygame.image.load('images/background.png')
-        self.bg = pygame.transform.scale(self.bg, (1024,750))
         self.castle = pygame.image.load('images/castle.png')
-        self.castle = pygame.transform.scale(self.castle,(300,400))
+        
         self._zombieImages = [pygame.image.load('images/walk1.png'),\
                               pygame.image.load('images/walk2.png'),\
                               pygame.image.load('images/walk3.png'),\
@@ -59,10 +58,21 @@ class DefenseGameUI:
             print(stringKey)
 
     def _create_surface(self, size: (int, int)) -> None:
-        self._surface = pygame.display.set_mode(size, pygame.RESIZABLE)
+        self._surface = pygame.display.set_mode(size)
+        # resizing not implemented completely
+        bg_x = self._frac_x_to_pixel_x(1024 / self._surface.get_width())
+        bg_y = self._frac_y_to_pixel_y(750 / self._surface.get_height())
+        
+        self.bg = pygame.transform.scale(self.bg,(bg_x, bg_y))
+
+        castle_x = 300 / self._surface.get_width()
+        castle_y = 400 / self._surface.get_height()
+        x = self._frac_x_to_pixel_x(castle_x)
+        y = self._frac_y_to_pixel_y(castle_y)
+        self.castle = pygame.transform.scale(self.castle, (x, y))
+        
 
     def _draw_frame(self) -> None:
-        self._surface.fill(_BACKGROUND_COLOR)
         self._surface.blit(self.bg,(0,0))
         self._surface.blit(self.castle,(0,220))
         self._draw_zombies()
@@ -86,8 +96,8 @@ class DefenseGameUI:
         zombieImage = self._zombieImages[z.chooseImageIndex(self._zombieImages)]
         sendImage = pygame.transform.scale(zombieImage,(width_pixel, height_pixel))
 
-        z.update(sendImage, zombieRectangle, top_left_pixel_x)
-        self._surface.blit(z.image, z.rect)
+        z.update()
+        self._surface.blit(sendImage, zombieRectangle)
 
     def _frac_x_to_pixel_x(self, frac_x: float) -> int:
         ''' Convert Fractional Coordinate of X to Pixel X Coordinate '''
