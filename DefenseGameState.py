@@ -1,7 +1,6 @@
 # Import Stuff Here
 import Player
 import Zombie
-import WordProblem
 
 # Gamestate of the Defense Game -> Does the
 
@@ -10,18 +9,16 @@ class DefenseGameState:
     def __init__(self):
         ''' Initializes the GameState '''
         self._player = Player.Player()
-        self._words = WordProblem.WordProblem()
-        self._zombies = Zombie.Zombie(self._words)
+        self._zombies = []
         self._shop = None
 
     def player(self) -> Player.Player:
         ''' Return Player Class '''
         return self._player
 
-    def words(self) -> WordProblem.WordProblem:
-        ''' Return WordProblem Class '''
-        return self._words
+    def loadZombie(self) -> Zombie.Zombie:
+        '''Return Zombie'''
+        self._zombies.append(Zombie.Zombie())
 
-    def zombie(self) -> Zombie.Zombie:
-        ''' Return Zombie Class '''
+    def getZombies(self) -> "list of zombies":
         return self._zombies

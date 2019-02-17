@@ -12,14 +12,19 @@ class DefenseGameUI:
         self._state = DefenseGameState.DefenseGameState()
 
         # Sprites
-        self.my_sprite = self._state.zombie()
-        self.my_group = pygame.sprite.Group(self.my_sprite)
+        self._state.loadZombie()
 
         # Images
+        self.bg = pygame.image.load('images/background.png')
+        self.bg = pygame.transform.scale(self.bg, (1024,750))
+        self.castle = pygame.image.load('images/castle.png')
+        self.castle = pygame.transform.scale(self.castle,(300,400))
         self._zombieImages = [pygame.image.load('images/walk1.png'),\
                               pygame.image.load('images/walk2.png'),\
                               pygame.image.load('images/walk3.png'),\
                               pygame.image.load('images/walk4.png')]
+
+        
 
 
     def run(self) -> None:
@@ -29,10 +34,14 @@ class DefenseGameUI:
             clock = pygame.time.Clock()
             self._create_surface((_INITIAL_WIDTH, _INITIAL_HEIGHT))
 
+            count = 0
             while self._running:
                 clock.tick(_FRAME_RATE)
+                if count % 50 == 0:
+                    self._state.loadZombie()
                 self._draw_frame()
                 self._handle_events()
+                count += 1
         finally:
             pygame.quit()
 
@@ -45,33 +54,40 @@ class DefenseGameUI:
             self._running = False
         elif event.type == pygame.VIDEORESIZE:
             self._create_surface(event.size)
+        elif event.type == pygame.KEYDOWN:
+            stringKey = pygame.key.name(event.key)
+            print(stringKey)
 
     def _create_surface(self, size: (int, int)) -> None:
         self._surface = pygame.display.set_mode(size, pygame.RESIZABLE)
 
     def _draw_frame(self) -> None:
         self._surface.fill(_BACKGROUND_COLOR)
-        self._draw_zombie()
-        self.my_group.draw(self._surface)
+        self._surface.blit(self.bg,(0,0))
+        self._surface.blit(self.castle,(0,220))
+        self._draw_zombies()
         pygame.display.flip()
 
+    def _draw_zombies(self) -> None:
+        for z in self._state.getZombies():
+            self._draw_zombie(z)
+  
 
-
-    def _draw_zombie(self) -> None:
-        zombie_x, zombie_y =  self._state.zombie().top_left()
-        widthFrac = self._state.zombie().getWidth()
-        heightFrac = self._state.zombie().getHeight()
+    def _draw_zombie(self, z) -> None:
+        zombie_x, zombie_y =  z.top_left()
+        widthFrac = z.getWidth()
+        heightFrac = z.getHeight()
         top_left_pixel_x = self._frac_x_to_pixel_x(zombie_x)
         top_left_pixel_y = self._frac_y_to_pixel_y(zombie_y)
         width_pixel = self._frac_x_to_pixel_x(widthFrac)
         height_pixel = self._frac_y_to_pixel_y(heightFrac)
 
         zombieRectangle = pygame.Rect(top_left_pixel_x, top_left_pixel_y, width_pixel, height_pixel)
-        zombieImage = self._zombieImages[self._state.zombie().chooseImageIndex(self._zombieImages)]
+        zombieImage = self._zombieImages[z.chooseImageIndex(self._zombieImages)]
         sendImage = pygame.transform.scale(zombieImage,(width_pixel, height_pixel))
 
-        self.my_group.update(sendImage, zombieRectangle, top_left_pixel_x)
-
+        z.update(sendImage, zombieRectangle, top_left_pixel_x)
+        self._surface.blit(z.image, z.rect)
 
     def _frac_x_to_pixel_x(self, frac_x: float) -> int:
         ''' Convert Fractional Coordinate of X to Pixel X Coordinate '''
