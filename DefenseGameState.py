@@ -11,11 +11,14 @@ class DefenseGameState:
         self._player = Player.Player()
         # zombies list implemented as queue -> first zombie in is first zombie
         # out when a zombie dies
+        self._highestScore = 0
+        self._currentScore = 0
+        self._zombieSpeed = 0.005
+        self._zombies = []
+        
         self._inputStr = ""
         
-        self._zombies = []
-
-        self._score = 0
+        
         self._life = 3
         self._isAlive = True
 
@@ -45,7 +48,7 @@ class DefenseGameState:
 
     def loadZombie(self) -> Zombie.Zombie:
         '''Return Zombie'''
-        self._zombies.append(Zombie.Zombie())
+        self._zombies.append(Zombie.Zombie(self._zombieSpeed))
 
     def zombieInvade(self):
         '''Remove zombie if next zombie in queue is at castle door coordinate'''
@@ -71,25 +74,37 @@ class DefenseGameState:
                 if charKey == "return":
                     self.reverseBolt()
                     self._inputStr = ""
+                    self._zombieSpeed += 0.00350
+                    self.changeZombiesSpeed(self._zombieSpeed)
                 else:
                     needMatch.makeSolZero()
                     self._inputStr = ""
+                    self.changeZombiesSpeed(0.005)
             else:
                 needMatch.inputChar(charKey)
                 self._inputStr += charKey
                 if needMatch.ZeroSolvedChar():
                     self._inputStr = ""
+                    self.changeZombiesSpeed(0.005)
+
+    def changeZombiesSpeed(self, speed):
+        for i in self._zombies:
+            i.changeSpeed(speed)
 
     def checkEqualWord(self):
         if len(self._zombies) > 0:
             return self._inputStr == self._zombies[0].getWordProblem().word()
 
-    def score(self):
-        '''Return player life left'''
-        return self._score
+    def gethighScore(self):
+        '''Return Highest Score'''
+        return self._highestScore
+
+    def getcurrentScore(self):
+        ''' Return Current Score '''
+        return self._currentScore
 
     def incScore(self):
-        self._score += 1
+        self._currentScore += len(self._zombies[0].getWordProblem().word())
 
     def decLife(self):
         self._life -= 1
@@ -107,4 +122,8 @@ class DefenseGameState:
         '''Change isAlive to False if character has 0 life left'''
         if self._life == 0:
             self._isAlive = False
+
+    def checkHighScore(self):
+        if self._currentScore > self._highestScore:
+            self._highestScore = self._currentScore
 

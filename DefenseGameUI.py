@@ -1,6 +1,7 @@
 import pygame
 import DefenseGameState
 
+
 _FRAME_RATE = 10
 _INITIAL_WIDTH = 1024
 _INITIAL_HEIGHT = 723
@@ -79,18 +80,19 @@ class DefenseGameUI:
             while self._running:
                 clock.tick(_FRAME_RATE)
                 if not self.mainMenuEnable:
-                    if count % 50 == 0:
+                    if count % 40 == 0:
                         self._state.loadZombie()
                         self._state._zombies[-1].zombieColor = self._nextZombie % 2
                         self._nextZombie += 1
                     self._state.zombieInvade()
 
                 if self._state.isAlive():
-                    self._draw_frame()
                     self._handle_events()
+                    self._draw_frame()
                     count += 1
                     self._peterClock += 1
                 else:
+                    self._state.checkHighScore()
                     self._handle_events()
                     self.endGame()
 
@@ -114,7 +116,8 @@ class DefenseGameUI:
                     self._state._isAlive = True
                     self._state._life = 3
                     self._state._zombies = []
-
+                    self._state._zombieSpeed = 0.005
+                    self._state._currentScore = 0
 
             else:
                 stringKey = pygame.key.name(event.key)
@@ -143,8 +146,10 @@ class DefenseGameUI:
             self._surface.blit(self.bg,(0,0))
             self._surface.blit(self.castle,(0,220))
             self._draw_zombies()
+            self._draw_currentScore()
             if self._state.activateBolt():
                 self._draw_bolt()
+                self._state.incScore()
                 self._state._zombies.remove(self._state._zombies[0])
                 self._state.reverseBolt()
             self._draw_cloud()
@@ -183,6 +188,16 @@ class DefenseGameUI:
         self._draw_text(z,top_left_pixel_x,top_left_pixel_y)
         z.update()
         self._surface.blit(sendImage, zombieRectangle)
+
+    def _draw_currentScore(self):
+        basicfont = pygame.font.Font("Poppins.ttf", 25)
+        word = "Current Score: "+ str(self._state.getcurrentScore())
+        text = basicfont.render(word, True, (0, 0, 0))
+        textrect = text.get_rect()
+        textrect.centerx = 140
+        textrect.centery = 20
+        self._surface.blit(text, textrect)
+        
 
     def _draw_hearts(self) -> None:
         heart = self._state._life
@@ -259,9 +274,25 @@ class DefenseGameUI:
         self._surface.blit(self.thunderCloud, (400,60))
         self._surface.blit(text, textrect)
 
+    def _displayHighestScore(self):
+        basicfont = pygame.font.Font("Poppins.ttf", 25)
+        word_high = "Highest Score: "+ str(self._state.gethighScore())
+        word_current = "Current Score: "+ str(self._state.getcurrentScore()) 
+        high = basicfont.render(word_high, True, (0, 0, 0))
+        current = basicfont.render(word_current, True, (0, 0, 0))
+        highrect = high.get_rect()
+        currentrect = current.get_rect()
+        highrect.centerx = 500
+        highrect.centery = 50
+        currentrect.centerx = 500
+        currentrect.centery = 100
+        self._surface.blit(high, highrect)
+        self._surface.blit(current, currentrect)
+
     def endGame(self):
         self.endGameImg = pygame.transform.scale(self.endGameImg,(1024,768))
         self._surface.blit(self.endGameImg,(0,0))
+        self._displayHighestScore()
         pygame.display.flip()
 
 class staticZombieMovement(pygame.sprite.Sprite):

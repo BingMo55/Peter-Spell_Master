@@ -1,15 +1,15 @@
 import pygame
 import WordProblem
-_ZOMBIE_SPEED = 0.005
+
 _ZOMBIE_WIDTH = 0.080
 _ZOMBIE_HEIGHT = 0.080
 
 class Zombie(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, speed):
         super(Zombie, self).__init__()
         self._width = _ZOMBIE_WIDTH
         self._height = _ZOMBIE_HEIGHT
-        self._speed = _ZOMBIE_SPEED
+        self._speed = speed
         self.top_left_x = 1 - self._width / 2
         self.top_left_y = 0.82 - self._height / 2
 
@@ -58,7 +58,7 @@ class Zombie(pygame.sprite.Sprite):
         
     def changeSpeed(self,newSpeed):
         ''' Change Speed '''
-        self._speed = newSpeed
+        self._speed += newSpeed
 
 ##    def changeWord(self, newWord):
 ##        ''' Change Word '''
