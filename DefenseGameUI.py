@@ -176,9 +176,9 @@ class DefenseGameUI:
             self._draw_currentScore()
             if self._state.activateBolt():
                 self._draw_bolt()
-                self._state.incScore()
                 self._zombieRemovalClock += 1
                 if self._zombieRemovalClock == 3:
+                    self._state.incScore()
                     self._state._zombies.remove(self._state._zombies[0])
                     self._state.reverseBolt()
                     self._zombieRemovalClock = 0
