@@ -8,7 +8,7 @@
           
           2.) There are two things you must know in order to run the code!
                     b.) Everything is separated to different classes. Each one may be linked to some other file in the project.
-                      Files in the project:
+                        Files in the project:
                           1.) DefenseGameUI.py = is a file that holds the GUI and runs the whole game. You can run this file only by having Pygame in the library.
                           2.) DefenseGameState.py = is a file holds the game logic for the game and utilized most of the objects and classes in the game. It runs manipulates most of the object behind the scene.
                           3.) WordProblem.py = it holds the word needed to solve as a string type. This class has many attributes and methods that keeps track if the word that is randomly generated is solved.
