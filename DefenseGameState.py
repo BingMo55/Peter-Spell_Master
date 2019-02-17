@@ -70,6 +70,7 @@ class DefenseGameState:
 
                 if charKey == "return":
                     self.reverseBolt()
+                    self._zombies[0].reverseShocked()
                     self._inputStr = ""
                 else:
                     needMatch.makeSolZero()
