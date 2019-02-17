@@ -44,3 +44,6 @@ class WordProblem:
 
     def wordCordXY(self):
         return (self.wordCoord_X, self.wordCoord_Y)
+
+    def ZeroSolvedChar(self):
+        return self._numberSolvedChar == 0
