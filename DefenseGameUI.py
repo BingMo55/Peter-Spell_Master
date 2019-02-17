@@ -10,6 +10,7 @@ class DefenseGameUI:
     def __init__(self):
         self._running = True
         self._state = DefenseGameState.DefenseGameState()
+        self._peterClock = 0
 
         # current method of choosing zombie = mod by 2 where 0=pink, 1=green
         self._nextZombie = 0
@@ -18,6 +19,8 @@ class DefenseGameUI:
         # Images
         self.bg = pygame.image.load('images/background.png')
         self.castle = pygame.image.load('images/castle/castle.png')
+        self._brick = pygame.image.load('images/castle/brick.png')
+        self._brick = pygame.transform.scale(self._brick, (69, 22))
         self.menubg = pygame.image.load('images/homeBackground.png')
         self.thunderCloud = pygame.image.load('images/thunder.png')
         self.textBox = pygame.image.load('images/rectangle.png')
@@ -46,6 +49,15 @@ class DefenseGameUI:
         self._heartImages[1] = pygame.transform.scale(self._heartImages[1], (100, 17))
         self._heartImages[2] = pygame.transform.scale(self._heartImages[2], (100, 17))
 
+        self._peterImages = [pygame.image.load('images/mainPeter1.png'),\
+                             pygame.image.load('images/mainPeter2.png'),\
+                             pygame.image.load('images/mainPeter3.png'),\
+                             pygame.image.load('images/mainPeter4.png')]
+        self._peterImages[0] = pygame.transform.scale(self._peterImages[0], (50, 60))
+        self._peterImages[1] = pygame.transform.scale(self._peterImages[1], (50, 60))
+        self._peterImages[2] = pygame.transform.scale(self._peterImages[2], (50, 60))
+        self._peterImages[3] = pygame.transform.scale(self._peterImages[3], (50, 60))
+
 
     def run(self) -> None:
         pygame.init()
@@ -67,6 +79,7 @@ class DefenseGameUI:
                     self._draw_frame()
                     self._handle_events()
                     count += 1
+                    self._peterClock += 1
                 else:
                     self._running = False
         finally:
@@ -115,6 +128,8 @@ class DefenseGameUI:
             self._draw_zombies()
             self._draw_cloud()
             self._draw_hearts()
+            self._draw_peter()
+            self._draw_brick()
             pygame.display.flip()
 
     def _draw_zombies(self) -> None:
@@ -151,6 +166,16 @@ class DefenseGameUI:
     def _draw_hearts(self) -> None:
         heart = self._state._life
         self._surface.blit(self._heartImages[heart-1], (104, 195))
+
+    def _draw_peter(self) -> None:
+        if self._peterClock % 10 == 0:
+            peterImage = self._peterImages[self._state.updatePeterIndex()]
+        else:
+            peterImage = self._peterImages[self._state.peterIndex()]
+        self._surface.blit(peterImage, (168, 358))
+
+    def _draw_brick(self) -> None:
+        self._surface.blit(self._brick, (165, 402))
 
     def _frac_x_to_pixel_x(self, frac_x: float) -> int:
         ''' Convert Fractional Coordinate of X to Pixel X Coordinate '''
@@ -193,7 +218,7 @@ class DefenseGameUI:
         word = self._state._inputStr
         text = basicfont.render(word, True, (255, 255, 255))
         if self._state.checkEqualWord():
-            text = basicfont.render(word, True, (57, 255, 20))
+            text = basicfont.render(word, True, (128, 255, 28))
         textrect = text.get_rect()
         textrect.centerx = self._surface.get_rect().centerx + 30
         textrect.centery = 150
