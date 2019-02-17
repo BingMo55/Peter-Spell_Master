@@ -33,6 +33,7 @@ class DefenseGameState:
         '''Remove zombie if next zombie in queue is at castle door coordinate'''
         if len(self._zombies)> 0 and self._zombies[0].top_left()[0] <= .09:
             self._removeZombie()
+            self.decLife()
 
     def _removeZombie(self):
         '''Removes a zombie from zombie list a.k.a) zombie died
@@ -53,7 +54,6 @@ class DefenseGameState:
             if needMatch.checkIfSolved():
                 self._inputStr = ""
                 self._zombies.remove(self._zombies[0])
-
 
     def score(self):
         '''Return player life left'''
