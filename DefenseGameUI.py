@@ -93,6 +93,10 @@ class DefenseGameUI:
 
         peterSprite = staticPeterMovement()
         self.peterGroup = pygame.sprite.Group(peterSprite)
+        #music init
+        pygame.mixer.init()
+        self.menuMusic = pygame.mixer.Sound("music1.wav")
+        self.gameplayMusic = pygame.mixer.Sound("music2.wav")
     def run(self) -> None:
         pygame.init()
 
@@ -118,6 +122,7 @@ class DefenseGameUI:
                 else:
                     self._state.checkHighScore()
                     self._handle_events()
+                    self.gameplayMusic.stop()
                     self.endGame()
 
         finally:
@@ -137,6 +142,7 @@ class DefenseGameUI:
                 if self.mainMenuEnable:
                     self.mainMenuEnable = False
                 if not self._state.isAlive():
+                    self.gameplayMusic.play(-1)
                     self._state._isAlive = True
                     self._state._life = 3
                     self._state._zombies = []
@@ -150,6 +156,8 @@ class DefenseGameUI:
 
             if event.key == pygame.K_ESCAPE:
                 self._running = False
+                self.menuMusic.stop()
+                self.gameplayMusic.stop()
 
     def _create_surface(self, size: (int, int)) -> None:
         self._surface = pygame.display.set_mode(size)
@@ -168,8 +176,12 @@ class DefenseGameUI:
 
     def _draw_frame(self) -> None:
         if self.mainMenuEnable:
+
+            self.menuMusic.play(-1)
             self._draw_mainMenu()
         else:
+            self.menuMusic.stop()
+            self.gameplayMusic.play(-1)
             self._surface.blit(self.bg,(0,0))
             self._surface.blit(self.castle,(0,220))
             self._draw_zombies()
