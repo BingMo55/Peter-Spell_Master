@@ -20,6 +20,7 @@ class DefenseGameUI:
         self.castle = pygame.image.load('images/castle/castle.png')
         self.menubg = pygame.image.load('images/homeBackground.png')
         self.thunderCloud = pygame.image.load('images/thunder.png')
+        self.textBox = pygame.image.load('images/rectangle.png')
 
         self._peterImages = [pygame.image.load('images/peter/peter1.png'), \
                        pygame.image.load('images/peter/peter2.png'),\
@@ -164,13 +165,14 @@ class DefenseGameUI:
         pygame.display.flip()
 
     def _draw_text(self,z,x,y):
+        self.textBox = pygame.transform.scale(self.textBox, (170, 50))
         basicfont = pygame.font.Font("Poppins.ttf", 25)
         word = z.getWordProblem().word()
-        text = basicfont.render(word, True, (0, 0, 0), (255, 255, 255))
+        text = basicfont.render(word, True, (0, 0, 0), (255,255,255))
         textrect = text.get_rect()
-        textrect.centerx = x + 50
-        textrect.centery = y - 20
-
+        textrect.centerx = x + 55
+        textrect.centery = y - 30
+        self._surface.blit(self.textBox, (x - 30, y - 55))
         self._surface.blit(text, textrect)
 
     def _draw_cloud(self):
