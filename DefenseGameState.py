@@ -14,6 +14,11 @@ class DefenseGameState:
         self._inputStr = ""
         
         self._zombies = []
+
+        self._score = 0
+        self._life = 3
+        self._isAlive = True
+        
         self._shop = None
 
     def player(self) -> Player.Player:
@@ -28,6 +33,7 @@ class DefenseGameState:
         '''Remove zombie if next zombie in queue is at castle door coordinate'''
         if len(self._zombies)> 0 and self._zombies[0].top_left()[0] <= .09:
             self._removeZombie()
+            self.decLife()
 
     def _removeZombie(self):
         '''Removes a zombie from zombie list a.k.a) zombie died
@@ -42,6 +48,7 @@ class DefenseGameState:
         if len(self._zombies) > 0:
             needMatch = self._zombies[0].getWordProblem()
             if needMatch.checkIfSolved():
+
                 if charKey == "return":
                     self._inputStr = ""
                     self._zombies.remove(self._zombies[0])
@@ -54,5 +61,28 @@ class DefenseGameState:
                 if needMatch.ZeroSolvedChar():
                     self._inputStr = ""
 
-        
-        
+
+    def score(self):
+        '''Return player life left'''
+        return self._score
+
+    def incScore(self):
+        self._score += 1
+
+    def decLife(self):
+        self._life -= 1
+        self._checkIfAlive()
+
+    def life(self):
+        '''Return player life left'''
+        return self._life
+
+    def isAlive(self):
+        '''Return True if player is still alive'''
+        return self._isAlive
+
+    def _checkIfAlive(self):
+        '''Change isAlive to False if character has 0 life left'''
+        if self._life == 0:
+            self._isAlive = False
+
