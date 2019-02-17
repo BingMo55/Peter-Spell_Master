@@ -150,7 +150,7 @@ class DefenseGameUI:
         pygame.display.flip()
 
     def _draw_text(self,z,x,y):
-        basicfont = pygame.font.Font("ARCADECLASSIC.ttf", 48)
+        basicfont = pygame.font.Font("Poppins.ttf", 35)
         word = z.getWordProblem().word()
         text = basicfont.render(word, True, (0, 0, 0), (255, 255, 255))
         textrect = text.get_rect()
