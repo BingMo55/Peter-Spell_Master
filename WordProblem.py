@@ -1,5 +1,6 @@
 import random
 words = ["hi", "there", "random"]
+
 _WORDPROBLEM_WIDTH = .05
 _WORDPROBLEM_HEIGHT = .05
 
