@@ -204,7 +204,7 @@ class DefenseGameUI:
             zombie_location = self._state.getZombies()[0].top_left()
             z_x = self._frac_x_to_pixel_x(zombie_location[0]) + 50
             z_y = self._frac_y_to_pixel_y(zombie_location[1]) + 25
-            pygame.draw.line(self._surface, (237,192,7), cloud_center, (z_x, z_y), 10)
+            pygame.draw.line(self._surface, (237,192,7), cloud_center, (z_x, z_y), 25)
 
     def _frac_x_to_pixel_x(self, frac_x: float) -> int:
         ''' Convert Fractional Coordinate of X to Pixel X Coordinate '''
