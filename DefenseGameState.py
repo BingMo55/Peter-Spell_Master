@@ -54,6 +54,7 @@ class DefenseGameState:
                 self._inputStr = ""
                 self._zombies.remove(self._zombies[0])
 
+
     def score(self):
         '''Return player life left'''
         return self._score
