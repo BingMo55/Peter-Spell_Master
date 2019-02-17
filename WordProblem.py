@@ -47,3 +47,6 @@ class WordProblem:
 
     def ZeroSolvedChar(self):
         return self._numberSolvedChar == 0
+
+    def makeSolZero(self):
+        self._numberSolvedChar = 0
