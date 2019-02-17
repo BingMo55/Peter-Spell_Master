@@ -14,10 +14,26 @@ class Zombie(pygame.sprite.Sprite):
         self.top_left_y = 0.82 - self._height / 2
 
         self.zombieColor = 0
+        self._isShocked = False
+        self._shockedIndex = 0
         
         self._word = WordProblem.WordProblem(self.top_left_x, self.top_left_y)
 
         self.index = 0
+
+    def shockedIndex(self):
+        return self._shockedIndex
+
+    def chooseShockedIndex(self):
+        index = self._shockedIndex % 5
+        self._shockedIndex += 1
+        return index
+
+    def isShocked(self):
+        return self._isShocked
+
+    def reverseShocked(self):
+        self._isShocked = not self._isShocked
 
     def update(self):
         ## Barrier For Now

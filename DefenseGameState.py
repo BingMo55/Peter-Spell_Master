@@ -73,6 +73,7 @@ class DefenseGameState:
 
                 if charKey == "return":
                     self.reverseBolt()
+                    self._zombies[0].reverseShocked()
                     self._inputStr = ""
                     self._zombieSpeed += 0.00350
                     self.changeZombiesSpeed(self._zombieSpeed)

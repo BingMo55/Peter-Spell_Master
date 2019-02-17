@@ -13,6 +13,7 @@ class DefenseGameUI:
         self._state = DefenseGameState.DefenseGameState()
 
         self._peterClock = 0
+        self._zombieRemovalClock = 0
 
         # current method of choosing zombie = mod by 2 where 0=pink, 1=green
         self._nextZombie = 0
@@ -65,6 +66,29 @@ class DefenseGameUI:
         self._peterImages[1] = pygame.transform.scale(self._peterImages[1], (50, 60))
         self._peterImages[2] = pygame.transform.scale(self._peterImages[2], (50, 60))
         self._peterImages[3] = pygame.transform.scale(self._peterImages[3], (50, 60))
+
+        self._shockedPinkZombies = [pygame.image.load('images/burnt/pinkBurnt1.png'),\
+                                pygame.image.load('images/burnt/pinkBurnt3.png'),\
+                                pygame.image.load('images/burnt/pinkBurnt4.png'),\
+                                pygame.image.load('images/burnt/pinkBurnt3.png'),\
+                                pygame.image.load('images/burnt/pinkBurnt4.png')]
+        self._shockedPinkZombies[0] = pygame.transform.scale(self._shockedPinkZombies[0], (50, 60))
+        self._shockedPinkZombies[1] = pygame.transform.scale(self._shockedPinkZombies[1], (50, 60))
+        self._shockedPinkZombies[2] = pygame.transform.scale(self._shockedPinkZombies[2], (50, 60))
+        self._shockedPinkZombies[3] = pygame.transform.scale(self._shockedPinkZombies[3], (50, 60))
+        self._shockedPinkZombies[4] = pygame.transform.scale(self._shockedPinkZombies[3], (50, 60))
+
+        self._shockedGreenZombies = [pygame.image.load('images/burnt/greenBurnt1.png'),\
+                                pygame.image.load('images/burnt/greenBurnt3.png'),\
+                                pygame.image.load('images/burnt/greenBurnt4.png'),\
+                                pygame.image.load('images/burnt/greenBurnt3.png'),\
+                                pygame.image.load('images/burnt/greenBurnt4.png')]
+        self._shockedGreenZombies[0] = pygame.transform.scale(self._shockedGreenZombies[0], (50, 60))
+        self._shockedGreenZombies[1] = pygame.transform.scale(self._shockedGreenZombies[1], (50, 60))
+        self._shockedGreenZombies[2] = pygame.transform.scale(self._shockedGreenZombies[2], (50, 60))
+        self._shockedGreenZombies[3] = pygame.transform.scale(self._shockedGreenZombies[3], (50, 60))
+        self._shockedGreenZombies[4] = pygame.transform.scale(self._shockedGreenZombies[3], (50, 60))        
+
 
 
         peterSprite = staticPeterMovement()
@@ -119,10 +143,13 @@ class DefenseGameUI:
                     self._state._zombieSpeed = 0.005
                     self._state._currentScore = 0
 
+
             else:
                 stringKey = pygame.key.name(event.key)
                 self._state.check_character(stringKey)
 
+            if event.key == pygame.K_ESCAPE:
+                self._running = False
 
     def _create_surface(self, size: (int, int)) -> None:
         self._surface = pygame.display.set_mode(size)
@@ -152,6 +179,12 @@ class DefenseGameUI:
                 self._state.incScore()
                 self._state._zombies.remove(self._state._zombies[0])
                 self._state.reverseBolt()
+                self._zombieRemovalClock += 1
+                if self._zombieRemovalClock == 3:
+                    self._state._zombies.remove(self._state._zombies[0])
+                    self._state.reverseBolt()
+                    self._zombieRemovalClock = 0
+
             self._draw_cloud()
             self._draw_hearts()
             self._draw_peter()
@@ -176,9 +209,15 @@ class DefenseGameUI:
 
         # 0 = pink, 1 = green -> can make cleaner way of choosing zombies
         if z.zombieColor == 0:
-            zombieImage = self._zombieImages[z.chooseImageIndex(self._zombieImages)]
+            if z.isShocked():
+                zombieImage = self._shockedPinkZombies[z.chooseShockedIndex()]
+            else:
+                zombieImage = self._zombieImages[z.chooseImageIndex(self._zombieImages)]
         else:
-            zombieImage = self._greenZombieImages[z.chooseImageIndex(self._greenZombieImages)]
+            if z.isShocked():
+                zombieImage = self._shockedGreenZombies[z.chooseShockedIndex()]
+            else:
+                zombieImage = self._greenZombieImages[z.chooseImageIndex(self._greenZombieImages)]
 
         # can remove cuz zombies not scaling -> move to createsurface
         sendImage = pygame.transform.scale(zombieImage,(width_pixel, height_pixel))
@@ -219,7 +258,7 @@ class DefenseGameUI:
             zombie_location = self._state.getZombies()[0].top_left()
             z_x = self._frac_x_to_pixel_x(zombie_location[0]) + 50
             z_y = self._frac_y_to_pixel_y(zombie_location[1]) + 25
-            pygame.draw.line(self._surface, (237,192,7), cloud_center, (z_x, z_y), 10)
+            pygame.draw.line(self._surface, (237,192,7), cloud_center, (z_x, z_y), 25)
 
     def _frac_x_to_pixel_x(self, frac_x: float) -> int:
         ''' Convert Fractional Coordinate of X to Pixel X Coordinate '''
@@ -234,15 +273,15 @@ class DefenseGameUI:
 
     def _draw_mainMenu(self):
 
-        basicfont = pygame.font.Font("cheddar_jack.ttf", 48)
-        word = "Press Spacebor to Begin"
-        text = basicfont.render(word, True, (44, 78, 115))
-        textrect = text.get_rect()
-        textrect.centerx = self._surface.get_rect().centerx
-        textrect.centery = self._surface.get_rect().centery+300
+        # basicfont = pygame.font.Font("cheddar_jack.ttf", 48)
+        # word = "Press Spacebor to Begin"
+        # text = basicfont.render(word, True, (44, 78, 115))
+        # textrect = text.get_rect()
+        # textrect.centerx = self._surface.get_rect().centerx
+        # textrect.centery = self._surface.get_rect().centery+300
         self.menubg = pygame.transform.scale(self.menubg,(1024,723))
         self._surface.blit(self.menubg,(0,0))
-        self._surface.blit(text, textrect)
+        # self._surface.blit(text, textrect)
         # update peter and zombie
         self.zombieGroup.update()
         self.zombieGroup.draw(self._surface)
