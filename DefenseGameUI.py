@@ -46,6 +46,7 @@ class DefenseGameUI:
                         self._state._zombies[-1].zombieColor = self._nextZombie % 2
                         self._nextZombie += 1
                     self._state.zombieInvade()
+                print(self._state._inputStr)
                 self._draw_frame()
                 self._handle_events()
                 count += 1
