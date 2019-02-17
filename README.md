@@ -19,7 +19,7 @@
               Controls:
                       Keyboard Inputs: (a-z input, Enter, ESC, Space Bar)
                       1.) a-z key- this keyboard input is accepted in the input buffer. The game analyzes if each character is following the path to answer the word. If not, it will automatically clear it and leave the input buffer as an empty string
-                      2.) Enter key- this input is used to accept the input buffer written by the player. It checks if it matches the word                           and will clear the zombie if do so else the input buffer will revert back to empty string.
+                      2.) Enter key- this input is used to accept the input buffer written by the player. It checks if it matches the word and will clear the zombie if do so else the input buffer will revert back to empty string.
                       3.) Space Bar - this input is utilized for the start and end menu in order to start the game or reset the game.
                       4.) ESC - this input is used to shut down and force quit program.
               
