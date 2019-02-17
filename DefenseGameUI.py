@@ -30,12 +30,6 @@ class DefenseGameUI:
                     pygame.image.load('images/greenzombie/greenzombie3.png'),\
                     pygame.image.load('images/greenzombie/greenzombie4.png')]
 
-        self._greenZombieImages = [pygame.image.load('images/green-zombie/green-zombie1.png'),\
-                              pygame.image.load('images/green-zombie/green-zombie2.png'),\
-                              pygame.image.load('images/green-zombie/green-zombie3.png'),\
-                              pygame.image.load('images/green-zombie/green-zombie4.png')]
-
-
     def run(self) -> None:
         pygame.init()
 
