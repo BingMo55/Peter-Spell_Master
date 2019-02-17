@@ -55,7 +55,7 @@ class DefenseGameUI:
             self._create_surface(event.size)
         elif event.type == pygame.KEYDOWN:
             stringKey = pygame.key.name(event.key)
-            print(stringKey)
+            self._state.check_character(stringKey)
 
     def _create_surface(self, size: (int, int)) -> None:
         self._surface = pygame.display.set_mode(size)

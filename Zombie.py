@@ -12,8 +12,9 @@ class Zombie(pygame.sprite.Sprite):
         self._speed = _ZOMBIE_SPEED
         self.top_left_x = 1 - self._width / 2
         self.top_left_y = 0.82 - self._height / 2
+        
+        self._word = WordProblem.WordProblem(self.top_left_x, self.top_left_y)
 
-        self._word = WordProblem.WordProblem()
         self.index = 0
 
     def update(self):
@@ -61,5 +62,9 @@ class Zombie(pygame.sprite.Sprite):
         tl_x = self.top_left_x
         new_x = tl_x + delta_x
         self.top_left_x = new_x
+
+    def getWordProblem(self) -> WordProblem.WordProblem:
+        return self._word
+        
 
 
