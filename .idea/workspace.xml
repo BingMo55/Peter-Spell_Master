@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2a3699d1-a055-4b3e-b329-830fe2dc1faa" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/defense-game.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/defense-game.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DefenseGameUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/DefenseGameUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WordProblem.py" beforeDir="false" afterPath="$PROJECT_DIR$/WordProblem.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/music/music1.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/music/music1.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/music/music2.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DefenseGameState.py" beforeDir="false" afterPath="$PROJECT_DIR$/DefenseGameState.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,7 +11,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/defense_game$DefenseGameUI.coverage" NAME="DefenseGameUI Coverage Results" MODIFIED="1550418061020" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/defense_game$DefenseGameUI.coverage" NAME="DefenseGameUI Coverage Results" MODIFIED="1550419499486" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/defense_game$transfer.coverage" NAME="transfer Coverage Results" MODIFIED="1550414660209" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.." />
   </component>
   <component name="FileEditorManager">
@@ -32,20 +25,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DefenseGameState.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="107" selection-start-line="107" selection-end-line="107" />
+            <state relative-caret-position="155">
+              <caret line="54" column="102" selection-start-line="54" selection-start-column="102" selection-end-line="54" selection-end-column="102" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DefenseGameUI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1920">
-              <caret line="124" column="45" selection-start-line="124" selection-start-column="45" selection-end-line="124" selection-end-column="45" />
+            <state relative-caret-position="272">
+              <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
             </state>
           </provider>
         </entry>
@@ -94,11 +87,11 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/zombie.py" />
-        <option value="$PROJECT_DIR$/DefenseGameState.py" />
         <option value="$PROJECT_DIR$/Zombie.py" />
         <option value="$PROJECT_DIR$/WordProblem.py" />
         <option value="$PROJECT_DIR$/../transfer.py" />
         <option value="$PROJECT_DIR$/DefenseGameUI.py" />
+        <option value="$PROJECT_DIR$/DefenseGameState.py" />
       </list>
     </option>
   </component>
@@ -205,12 +198,12 @@
       <workItem from="1550403173109" duration="18000" />
       <workItem from="1550403655724" duration="410000" />
       <workItem from="1550404207453" duration="492000" />
-      <workItem from="1550409429507" duration="8569000" />
+      <workItem from="1550409429507" duration="9265000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16118000" />
+    <option name="totallyTimeSpent" value="16814000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1536" height="864" extended-state="0" />
@@ -309,17 +302,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DefenseGameState.py">
+    <entry file="file://$PROJECT_DIR$/DefenseGameUI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="107" selection-start-line="107" selection-end-line="107" />
+        <state relative-caret-position="272">
+          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DefenseGameUI.py">
+    <entry file="file://$PROJECT_DIR$/DefenseGameState.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1920">
-          <caret line="124" column="45" selection-start-line="124" selection-start-column="45" selection-end-line="124" selection-end-column="45" />
+        <state relative-caret-position="155">
+          <caret line="54" column="102" selection-start-line="54" selection-start-column="102" selection-end-line="54" selection-end-column="102" />
         </state>
       </provider>
     </entry>

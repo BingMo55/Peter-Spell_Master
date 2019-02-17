@@ -52,7 +52,7 @@ class DefenseGameState:
 
     def zombieInvade(self):
         '''Remove zombie if next zombie in queue is at castle door coordinate'''
-        if len(self._zombies)> 0 and self._zombies[0].top_left()[0] <= .09:
+        if len(self._zombies)> 0 and self._zombies[0].top_left()[0] <= .09 and not self.activateBolt():
             self._removeZombie()
             self.decLife()
 
