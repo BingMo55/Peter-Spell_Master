@@ -16,7 +16,7 @@ class DefenseGameUI:
 
         # Images
         self.bg = pygame.image.load('images/background.png')
-        self.castle = pygame.image.load('images/castle.png')
+        self.castle = pygame.image.load('images/castle/castle.png')
         self.menubg = pygame.image.load('images/homeBackground.png')
         self.mainMenuEnable = True
         self._zombieImages = [pygame.image.load('images/walk1.png'),\
@@ -45,9 +45,12 @@ class DefenseGameUI:
                         self._state._zombies[-1].zombieColor = self._nextZombie % 2
                         self._nextZombie += 1
                     self._state.zombieInvade()
-                self._draw_frame()
-                self._handle_events()
-                count += 1
+                if self._state.isAlive():
+                    self._draw_frame()
+                    self._handle_events()
+                    count += 1
+                else:
+                    self._running = False
         finally:
             pygame.quit()
 
