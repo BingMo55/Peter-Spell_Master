@@ -13,8 +13,6 @@ class DefenseGameUI:
 
         # current method of choosing zombie = mod by 2 where 0=pink, 1=green
         self._nextZombie = 0
-        # Sprites
-        #self._state.loadZombie()
 
         # Images
         self.bg = pygame.image.load('images/background.png')
@@ -25,10 +23,10 @@ class DefenseGameUI:
                               pygame.image.load('images/walk3.png'),\
                               pygame.image.load('images/walk4.png')]
         self._greenZombieImages = [
-                    pygame.image.load('images/greenzombie/green1.png'),\
-                    pygame.image.load('images/greenzombie/green2.png'),\
-                    pygame.image.load('images/greenzombie/green3.png'),\
-                    pygame.image.load('images/greenzombie/green4.png')]
+                    pygame.image.load('images/green1.png'),\
+                    pygame.image.load('images/green2.png'),\
+                    pygame.image.load('images/green3.png'),\
+                    pygame.image.load('images/green4.png')]
 
     def run(self) -> None:
         pygame.init()
@@ -46,7 +44,6 @@ class DefenseGameUI:
                         self._state._zombies[-1].zombieColor = self._nextZombie % 2
                         self._nextZombie += 1
                     self._state.zombieInvade()
-                print(self._state._inputStr)
                 self._draw_frame()
                 self._handle_events()
                 count += 1
@@ -77,7 +74,7 @@ class DefenseGameUI:
         # resizing not implemented completely
         bg_x = self._frac_x_to_pixel_x(1024 / self._surface.get_width())
         bg_y = self._frac_y_to_pixel_y(750 / self._surface.get_height())
-
+        
         self.bg = pygame.transform.scale(self.bg,(bg_x, bg_y))
 
         castle_x = 300 / self._surface.get_width()
@@ -85,6 +82,7 @@ class DefenseGameUI:
         x = self._frac_x_to_pixel_x(castle_x)
         y = self._frac_y_to_pixel_y(castle_y)
         self.castle = pygame.transform.scale(self.castle, (x, y))
+        
 
     def _draw_frame(self) -> None:
         if self.mainMenuEnable:
@@ -93,12 +91,13 @@ class DefenseGameUI:
             self._surface.blit(self.bg,(0,0))
             self._surface.blit(self.castle,(0,220))
             self._draw_zombies()
+            self._draw_cloud()
             pygame.display.flip()
 
     def _draw_zombies(self) -> None:
         for z in self._state.getZombies():
             self._draw_zombie(z)
-
+  
 
     def _draw_zombie(self, z) -> None:
         zombie_x, zombie_y =  z.top_left()
@@ -117,7 +116,7 @@ class DefenseGameUI:
         else:
             zombieImage = self._greenZombieImages[z.chooseImageIndex(self._greenZombieImages)]
 
-        # can remove cuz zombies not scaling -> move to createsurface
+        # can remove cuz zombies not scaling -> move to createsurface    
         sendImage = pygame.transform.scale(zombieImage,(width_pixel, height_pixel))
 
         # WORD RECTANGLE
@@ -156,6 +155,15 @@ class DefenseGameUI:
         textrect = text.get_rect()
         textrect.centerx = x + 50
         textrect.centery = y - 20
+        self._surface.blit(text, textrect)
+
+    def _draw_cloud(self):
+        basicfont = pygame.font.Font("ARCADECLASSIC.ttf", 35)
+        word = self._state._inputStr
+        text = basicfont.render(word, True, (0, 0, 0), (255, 255, 255))
+        textrect = text.get_rect()
+        textrect.centerx = self._surface.get_rect().centerx
+        textrect.centery = 50
         self._surface.blit(text, textrect)
 
 if __name__ == '__main__':
