@@ -39,6 +39,13 @@ class DefenseGameUI:
                     pygame.image.load('images/green3.png'),\
                     pygame.image.load('images/green4.png')]
 
+        self._heartImages = [pygame.image.load('images/heart1.png'),\
+                             pygame.image.load('images/heart2.png'),\
+                             pygame.image.load('images/heart3.png')]
+        self._heartImages[0] = pygame.transform.scale(self._heartImages[0], (30, 17))
+        self._heartImages[1] = pygame.transform.scale(self._heartImages[1], (75, 17))
+        self._heartImages[2] = pygame.transform.scale(self._heartImages[2], (100, 17))
+
 
     def run(self) -> None:
         pygame.init()
@@ -107,6 +114,7 @@ class DefenseGameUI:
             self._surface.blit(self.castle,(0,220))
             self._draw_zombies()
             self._draw_cloud()
+            self._draw_hearts()
             pygame.display.flip()
 
     def _draw_zombies(self) -> None:
@@ -139,6 +147,10 @@ class DefenseGameUI:
         self._draw_text(z,top_left_pixel_x,top_left_pixel_y)
         z.update()
         self._surface.blit(sendImage, zombieRectangle)
+
+    def _draw_hearts(self) -> None:
+        heart = self._state._life
+        self._surface.blit(self._heartImages[heart-1], (110, 195))
 
     def _frac_x_to_pixel_x(self, frac_x: float) -> int:
         ''' Convert Fractional Coordinate of X to Pixel X Coordinate '''
