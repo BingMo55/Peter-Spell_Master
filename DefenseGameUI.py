@@ -15,7 +15,6 @@ class DefenseGameUI:
         self._nextZombie = 0
         self.mainMenuEnable = True
 
-
         # Images
         self.bg = pygame.image.load('images/background.png')
         self.castle = pygame.image.load('images/castle/castle.png')
@@ -39,18 +38,12 @@ class DefenseGameUI:
                     pygame.image.load('images/green2.png'),\
                     pygame.image.load('images/green3.png'),\
                     pygame.image.load('images/green4.png')]
-        #static menu animations init
-        self.zombieSprite = staticZombieMovement()
-        self.zombieStatic = pygame.sprite.Group(self.zombieSprite)
 
-        self.peterSprite = staticPeterMovement()
-        self.peterRotate = pygame.sprite.Group(self.peterSprite)
-
-        self._heartImages = [pygame.image.load('images/heart1.png'),\
-                             pygame.image.load('images/heart2.png'),\
+        self._heartImages = [pygame.image.load('images/blackHearts2.png'),\
+                             pygame.image.load('images/blackHearts.png'),\
                              pygame.image.load('images/heart3.png')]
-        self._heartImages[0] = pygame.transform.scale(self._heartImages[0], (30, 17))
-        self._heartImages[1] = pygame.transform.scale(self._heartImages[1], (75, 17))
+        self._heartImages[0] = pygame.transform.scale(self._heartImages[0], (100, 17))
+        self._heartImages[1] = pygame.transform.scale(self._heartImages[1], (100, 17))
         self._heartImages[2] = pygame.transform.scale(self._heartImages[2], (100, 17))
 
 
@@ -70,7 +63,6 @@ class DefenseGameUI:
                         self._state._zombies[-1].zombieColor = self._nextZombie % 2
                         self._nextZombie += 1
                     self._state.zombieInvade()
-
                 if self._state.isAlive():
                     self._draw_frame()
                     self._handle_events()
@@ -158,7 +150,7 @@ class DefenseGameUI:
 
     def _draw_hearts(self) -> None:
         heart = self._state._life
-        self._surface.blit(self._heartImages[heart-1], (110, 195))
+        self._surface.blit(self._heartImages[heart-1], (104, 195))
 
     def _frac_x_to_pixel_x(self, frac_x: float) -> int:
         ''' Convert Fractional Coordinate of X to Pixel X Coordinate '''
@@ -182,12 +174,6 @@ class DefenseGameUI:
         self.menubg = pygame.transform.scale(self.menubg,(1024,723))
         self._surface.blit(self.menubg,(0,0))
         self._surface.blit(text, textrect)
-
-        #animate static
-        self.zombieStatic.update()
-        self.zombieStatic.draw(self._surface)
-        self.peterRotate.update()
-        self.peterRotate.draw(self._surface)
         pygame.display.flip()
 
     def _draw_text(self,z,x,y):
@@ -211,47 +197,6 @@ class DefenseGameUI:
         textrect.centery = 150
         self._surface.blit(self.thunderCloud, (400,60))
         self._surface.blit(text, textrect)
-
-
-class staticZombieMovement(pygame.sprite.Sprite):
-    def __init__(self):
-        super(staticZombieMovement, self).__init__()
-        self.images = []
-        self.images.append(pygame.image.load('images/walk1.png'))
-        self.images.append(pygame.image.load('images/walk2.png'))
-        self.images.append(pygame.image.load('images/walk3.png'))
-        self.images.append(pygame.image.load('images/walk4.png'))
-        self.index = 0
-        self.image = self.images[self.index]
-        self.rect = pygame.Rect(700, 500, 50, 50)
-
-    def update(self):
-        self.index += 1
-        if self.index >= len(self.images):
-            self.index = 0
-
-        self.image = self.images[self.index]
-        self.image = pygame.transform.scale(self.image,(200,200))
-
-class staticPeterMovement(pygame.sprite.Sprite):
-    def __init__(self):
-        super(staticPeterMovement,self).__init__()
-        self.images = []
-        self.images.append(pygame.image.load('images/peter/peter1.png'))
-        self.images.append(pygame.image.load('images/peter/peter2.png'))
-        self.images.append(pygame.image.load('images/peter/peter3.png'))
-        self.images.append(pygame.image.load('images/peter/peter4.png'))
-        self.index = 0
-        self.image = self.images[self.index]
-        self.rect = pygame.Rect(120,550, 50, 50)
-
-    def update(self):
-        self.index += 1
-        if self.index >= len(self.images):
-            self.index = 0
-
-        self.image = self.images[self.index]
-        self.image = pygame.transform.scale(self.image, (150, 150))
 
 
 if __name__ == '__main__':
