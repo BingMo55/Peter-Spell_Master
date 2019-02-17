@@ -110,6 +110,10 @@ class DefenseGameUI:
         zombieImage = self._zombieImages[z.chooseImageIndex(self._zombieImages)]
         sendImage = pygame.transform.scale(zombieImage,(width_pixel, height_pixel))
 
+        # WORD RECTANGLE
+        # wordRectangle = pygame.Rect(top_left_pixel_x,top_left_pixel_y+20)
+        self._draw_text(z,top_left_pixel_x,top_left_pixel_y)
+
         z.update()
         self._surface.blit(sendImage, zombieRectangle)
 
@@ -126,13 +130,23 @@ class DefenseGameUI:
 
     def _draw_mainMenu(self):
         self._surface.fill(_BACKGROUND_COLOR)
-        basicfont = pygame.font.SysFont("Orator Std", 48)
-        text = basicfont.render('Space to start game!', True, (255, 0, 0), (255, 255, 0))
+        basicfont = pygame.font.Font("ARCADECLASSIC.ttf", 48)
+        word = "default Word"
+        text = basicfont.render(word, True, (255, 0, 0), (255, 255, 0))
         textrect = text.get_rect()
-        textrect.centerx = self._surface.get_rect().centerx
+        textrect.centerx += self._surface.get_rect().centerx
         textrect.centery = self._surface.get_rect().centery
         self._surface.blit(text, textrect)
         pygame.display.flip()
+
+    def _draw_text(self,z,x,y):
+        basicfont = pygame.font.Font("ARCADECLASSIC.ttf", 48)
+        word = z.getWordProblem().word()
+        text = basicfont.render(word, True, (0, 0, 0), (255, 255, 255))
+        textrect = text.get_rect()
+        textrect.centerx = x + 50
+        textrect.centery = y - 20
+        self._surface.blit(text, textrect)
 
 if __name__ == '__main__':
     DefenseGameUI().run()
