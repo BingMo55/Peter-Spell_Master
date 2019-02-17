@@ -17,6 +17,7 @@ class DefenseGameUI:
         # Images
         self.bg = pygame.image.load('images/background.png')
         self.castle = pygame.image.load('images/castle.png')
+        self.menubg = pygame.image.load('images/homeBackground.png')
         self.mainMenuEnable = True
         self._zombieImages = [pygame.image.load('images/walk1.png'),\
                               pygame.image.load('images/walk2.png'),\
@@ -137,13 +138,15 @@ class DefenseGameUI:
         return int(frac*max_pixel)
 
     def _draw_mainMenu(self):
-        self._surface.fill(_BACKGROUND_COLOR)
-        basicfont = pygame.font.Font("ARCADECLASSIC.ttf", 48)
-        word = "default Word"
-        text = basicfont.render(word, True, (255, 0, 0), (255, 255, 0))
+
+        basicfont = pygame.font.Font("cheddar_jack.ttf", 48)
+        word = "Press Spacebor to Begin"
+        text = basicfont.render(word, True, (44, 78, 115))
         textrect = text.get_rect()
-        textrect.centerx += self._surface.get_rect().centerx
-        textrect.centery = self._surface.get_rect().centery
+        textrect.centerx = self._surface.get_rect().centerx
+        textrect.centery = self._surface.get_rect().centery+300
+        self.menubg = pygame.transform.scale(self.menubg,(1024,723))
+        self._surface.blit(self.menubg,(0,0))
         self._surface.blit(text, textrect)
         pygame.display.flip()
 
@@ -154,6 +157,7 @@ class DefenseGameUI:
         textrect = text.get_rect()
         textrect.centerx = x + 50
         textrect.centery = y - 20
+
         self._surface.blit(text, textrect)
 
     def _draw_cloud(self):
