@@ -180,6 +180,8 @@ class DefenseGameUI:
         basicfont = pygame.font.Font("ARCADECLASSIC.ttf", 35)
         word = self._state._inputStr
         text = basicfont.render(word, True, (255, 255, 255))
+        if self._state.checkEqualWord():
+            text = basicfont.render(word, True, (57, 255, 20))
         textrect = text.get_rect()
         textrect.centerx = self._surface.get_rect().centerx + 30
         textrect.centery = 150

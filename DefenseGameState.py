@@ -61,6 +61,9 @@ class DefenseGameState:
                 if needMatch.ZeroSolvedChar():
                     self._inputStr = ""
 
+    def checkEqualWord(self):
+        if len(self._zombies) > 0:
+            return self._inputStr == self._zombies[0].getWordProblem().word()
 
     def score(self):
         '''Return player life left'''
