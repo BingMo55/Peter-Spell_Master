@@ -93,6 +93,8 @@ class DefenseGameUI:
 
         peterSprite = staticPeterMovement()
         self.peterGroup = pygame.sprite.Group(peterSprite)
+        #music init
+        self.menuMusic = pygame.mixer.Sound("music1.mp3")
     def run(self) -> None:
         pygame.init()
 
@@ -168,8 +170,11 @@ class DefenseGameUI:
 
     def _draw_frame(self) -> None:
         if self.mainMenuEnable:
+
+            self.menuMusic.play(-1)
             self._draw_mainMenu()
         else:
+            self.menuMusic.stop()
             self._surface.blit(self.bg,(0,0))
             self._surface.blit(self.castle,(0,220))
             self._draw_zombies()
