@@ -12,6 +12,8 @@ class Zombie(pygame.sprite.Sprite):
         self._speed = _ZOMBIE_SPEED
         self.top_left_x = 1 - self._width / 2
         self.top_left_y = 0.82 - self._height / 2
+
+        self.zombieColor = 0
         
         self._word = WordProblem.WordProblem(self.top_left_x, self.top_left_y)
 
@@ -24,7 +26,13 @@ class Zombie(pygame.sprite.Sprite):
     def chooseImageIndex(self, Images: 'List of Zombies'):
         self.index += 1
         if self.index == len(Images):
-            self.index = 1
+            self.index = 0
+        return self.index
+
+    def chooseImageIndex2(self, Images: 'List of Zombies'):
+        self.index += 1
+        if self.index == len(Images):
+            self.index = 0
         return self.index
 
 

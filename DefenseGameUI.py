@@ -10,7 +10,9 @@ class DefenseGameUI:
     def __init__(self):
         self._running = True
         self._state = DefenseGameState.DefenseGameState()
-        
+
+        # current method of choosing zombie = mod by 2 where 0=pink, 1=green
+        self._nextZombie = 0
         # Sprites
         self._state.loadZombie()
 
@@ -22,6 +24,11 @@ class DefenseGameUI:
                               pygame.image.load('images/walk2.png'),\
                               pygame.image.load('images/walk3.png'),\
                               pygame.image.load('images/walk4.png')]
+        self._greenZombieImages = [
+                    pygame.image.load('images/greenzombie/greenzombie1.png'),\
+                    pygame.image.load('images/greenzombie/greenzombie2.png'),\
+                    pygame.image.load('images/greenzombie/greenzombie3.png'),\
+                    pygame.image.load('images/greenzombie/greenzombie4.png')]
 
         self._greenZombieImages = [pygame.image.load('images/green-zombie/green-zombie1.png'),\
                               pygame.image.load('images/green-zombie/green-zombie2.png'),\
@@ -42,6 +49,8 @@ class DefenseGameUI:
                 if not self.mainMenuEnable:
                     if count % 50 == 0:
                         self._state.loadZombie()
+                        self._state._zombies[-1].zombieColor = self._nextZombie % 2
+                        self._nextZombie += 1
                     self._state.zombieInvade()
                 self._draw_frame()
                 self._handle_events()
@@ -107,7 +116,14 @@ class DefenseGameUI:
         height_pixel = self._frac_y_to_pixel_y(heightFrac)
 
         zombieRectangle = pygame.Rect(top_left_pixel_x, top_left_pixel_y, width_pixel, height_pixel)
-        zombieImage = self._zombieImages[z.chooseImageIndex(self._zombieImages)]
+
+        # 0 = pink, 1 = green -> can make cleaner way of choosing zombies
+        if z.zombieColor == 0:
+            zombieImage = self._zombieImages[z.chooseImageIndex(self._zombieImages)]
+        else:
+            zombieImage = self._greenZombieImages[z.chooseImageIndex(self._greenZombieImages)]
+
+        # can remove cuz zombies not scaling -> move to createsurface    
         sendImage = pygame.transform.scale(zombieImage,(width_pixel, height_pixel))
 
         # WORD RECTANGLE
