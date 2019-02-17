@@ -1,5 +1,7 @@
 import random
-words = ["hi", "there", "random"]
+
+words = ["keen", "spoil", "mask", "meek", "scratch", "exotic", "barbarous",\
+         "grotesque", "market", "relieved", "tax" , "fragile", "luxuriant"]
 
 _WORDPROBLEM_WIDTH = .05
 _WORDPROBLEM_HEIGHT = .05

@@ -14,7 +14,7 @@ class DefenseGameUI:
         # current method of choosing zombie = mod by 2 where 0=pink, 1=green
         self._nextZombie = 0
         # Sprites
-        self._state.loadZombie()
+        #self._state.loadZombie()
 
         # Images
         self.bg = pygame.image.load('images/background.png')
