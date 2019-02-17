@@ -44,7 +44,6 @@ class DefenseGameUI:
                         self._state._zombies[-1].zombieColor = self._nextZombie % 2
                         self._nextZombie += 1
                     self._state.zombieInvade()
-                print(self._state._inputStr)
                 self._draw_frame()
                 self._handle_events()
                 count += 1
@@ -92,6 +91,7 @@ class DefenseGameUI:
             self._surface.blit(self.bg,(0,0))
             self._surface.blit(self.castle,(0,220))
             self._draw_zombies()
+            self._draw_cloud()
             pygame.display.flip()
 
     def _draw_zombies(self) -> None:
@@ -155,6 +155,15 @@ class DefenseGameUI:
         textrect = text.get_rect()
         textrect.centerx = x + 50
         textrect.centery = y - 20
+        self._surface.blit(text, textrect)
+
+    def _draw_cloud(self):
+        basicfont = pygame.font.Font("ARCADECLASSIC.ttf", 35)
+        word = self._state._inputStr
+        text = basicfont.render(word, True, (0, 0, 0), (255, 255, 255))
+        textrect = text.get_rect()
+        textrect.centerx = self._surface.get_rect().centerx
+        textrect.centery = 50
         self._surface.blit(text, textrect)
 
 if __name__ == '__main__':
