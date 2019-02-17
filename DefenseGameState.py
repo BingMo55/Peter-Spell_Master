@@ -38,6 +38,7 @@ class DefenseGameState:
     def _removeZombie(self):
         '''Removes a zombie from zombie list a.k.a) zombie died
             queue style implementation'''
+        self._inputStr = ""
         self._zombies.remove(self._zombies[0])
 
     def getZombies(self) -> "list of zombies":
