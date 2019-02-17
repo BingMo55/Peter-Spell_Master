@@ -18,8 +18,19 @@ class DefenseGameState:
         self._score = 0
         self._life = 3
         self._isAlive = True
+
+        self._peterIndex = 0
         
         self._shop = None
+
+    def peterIndex(self):
+        return self._peterIndex % 4
+    
+    def updatePeterIndex(self):
+        index = self._peterIndex
+        self._peterIndex += 1
+        # mod 4 -> 4 is number of peter images
+        return index % 4
 
     def player(self) -> Player.Player:
         ''' Return Player Class '''
