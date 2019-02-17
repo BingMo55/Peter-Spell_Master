@@ -36,8 +36,9 @@ class DefenseGameUI:
             count = 0
             while self._running:
                 clock.tick(_FRAME_RATE)
-                if count % 50 == 0:
-                    self._state.loadZombie()
+                if not self.mainMenuEnable:
+                    if count % 50 == 0:
+                        self._state.loadZombie()
                 self._draw_frame()
                 self._handle_events()
                 count += 1
@@ -121,8 +122,8 @@ class DefenseGameUI:
 
     def _draw_mainMenu(self):
         self._surface.fill(_BACKGROUND_COLOR)
-        basicfont = pygame.font.SysFont(None, 48)
-        text = basicfont.render('Space to start game!', True, (255, 0, 0), (255, 255, 255))
+        basicfont = pygame.font.SysFont("Orator Std", 48)
+        text = basicfont.render('Space to start game!', True, (255, 0, 0), (255, 255, 0))
         textrect = text.get_rect()
         textrect.centerx = self._surface.get_rect().centerx
         textrect.centery = self._surface.get_rect().centery
