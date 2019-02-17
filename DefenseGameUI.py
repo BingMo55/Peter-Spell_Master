@@ -11,16 +11,22 @@ class DefenseGameUI:
         self._running = True
         self._state = DefenseGameState.DefenseGameState()
 
+        self._peterClock = 0
+
         # current method of choosing zombie = mod by 2 where 0=pink, 1=green
         self._nextZombie = 0
         self.mainMenuEnable = True
+        self.gameOver = False
 
         # Images
         self.bg = pygame.image.load('images/background.png')
         self.castle = pygame.image.load('images/castle/castle.png')
+        self._brick = pygame.image.load('images/castle/brick.png')
+        self._brick = pygame.transform.scale(self._brick, (69, 22))
         self.menubg = pygame.image.load('images/homeBackground.png')
         self.thunderCloud = pygame.image.load('images/thunder.png')
         self.textBox = pygame.image.load('images/rectangle.png')
+        self.endGameImg = pygame.image.load('images/GameOverBackground.png')
 
         self._peterImages = [pygame.image.load('images/peter/peter1.png'), \
                        pygame.image.load('images/peter/peter2.png'),\
@@ -47,6 +53,21 @@ class DefenseGameUI:
         self._heartImages[2] = pygame.transform.scale(self._heartImages[2], (100, 17))
 
 
+        #create init class
+        zombieSprite = staticZombieMovement()
+        self.zombieGroup = pygame.sprite.Group(zombieSprite)
+        self._peterImages = [pygame.image.load('images/mainPeter1.png'),\
+                             pygame.image.load('images/mainPeter2.png'),\
+                             pygame.image.load('images/mainPeter3.png'),\
+                             pygame.image.load('images/mainPeter4.png')]
+        self._peterImages[0] = pygame.transform.scale(self._peterImages[0], (50, 60))
+        self._peterImages[1] = pygame.transform.scale(self._peterImages[1], (50, 60))
+        self._peterImages[2] = pygame.transform.scale(self._peterImages[2], (50, 60))
+        self._peterImages[3] = pygame.transform.scale(self._peterImages[3], (50, 60))
+
+
+        peterSprite = staticPeterMovement()
+        self.peterGroup = pygame.sprite.Group(peterSprite)
     def run(self) -> None:
         pygame.init()
 
@@ -63,12 +84,16 @@ class DefenseGameUI:
                         self._state._zombies[-1].zombieColor = self._nextZombie % 2
                         self._nextZombie += 1
                     self._state.zombieInvade()
+
                 if self._state.isAlive():
                     self._draw_frame()
                     self._handle_events()
                     count += 1
+                    self._peterClock += 1
                 else:
-                    self._running = False
+                    self._handle_events()
+                    self.endGame()
+
         finally:
             pygame.quit()
 
@@ -85,10 +110,15 @@ class DefenseGameUI:
             if event.key == pygame.K_SPACE:
                 if self.mainMenuEnable:
                     self.mainMenuEnable = False
+                if not self._state.isAlive():
+                    self._state._isAlive = True
+                    self._state._life = 3
+                    self._state._zombies = []
+
+
             else:
                 stringKey = pygame.key.name(event.key)
                 self._state.check_character(stringKey)
-
 
 
     def _create_surface(self, size: (int, int)) -> None:
@@ -113,8 +143,14 @@ class DefenseGameUI:
             self._surface.blit(self.bg,(0,0))
             self._surface.blit(self.castle,(0,220))
             self._draw_zombies()
+            if self._state.activateBolt():
+                self._draw_bolt()
+                self._state._zombies.remove(self._state._zombies[0])
+                self._state.reverseBolt()
             self._draw_cloud()
             self._draw_hearts()
+            self._draw_peter()
+            self._draw_brick()
             pygame.display.flip()
 
     def _draw_zombies(self) -> None:
@@ -152,6 +188,24 @@ class DefenseGameUI:
         heart = self._state._life
         self._surface.blit(self._heartImages[heart-1], (104, 195))
 
+    def _draw_peter(self) -> None:
+        if self._peterClock % 10 == 0:
+            peterImage = self._peterImages[self._state.updatePeterIndex()]
+        else:
+            peterImage = self._peterImages[self._state.peterIndex()]
+        self._surface.blit(peterImage, (168, 358))
+
+    def _draw_brick(self) -> None:
+        self._surface.blit(self._brick, (165, 402))
+
+    def _draw_bolt(self) -> None:
+        if len(self._state.getZombies()) > 0:
+            cloud_center = (555, 120)
+            zombie_location = self._state.getZombies()[0].top_left()
+            z_x = self._frac_x_to_pixel_x(zombie_location[0]) + 50
+            z_y = self._frac_y_to_pixel_y(zombie_location[1]) + 25
+            pygame.draw.line(self._surface, (237,192,7), cloud_center, (z_x, z_y), 10)
+
     def _frac_x_to_pixel_x(self, frac_x: float) -> int:
         ''' Convert Fractional Coordinate of X to Pixel X Coordinate '''
         return self._frac_to_pixel(frac_x, self._surface.get_width())
@@ -174,6 +228,11 @@ class DefenseGameUI:
         self.menubg = pygame.transform.scale(self.menubg,(1024,723))
         self._surface.blit(self.menubg,(0,0))
         self._surface.blit(text, textrect)
+        # update peter and zombie
+        self.zombieGroup.update()
+        self.zombieGroup.draw(self._surface)
+        self.peterGroup.update()
+        self.peterGroup.draw(self._surface)
         pygame.display.flip()
 
     def _draw_text(self,z,x,y):
@@ -193,12 +252,57 @@ class DefenseGameUI:
         word = self._state._inputStr
         text = basicfont.render(word, True, (255, 255, 255))
         if self._state.checkEqualWord():
-            text = basicfont.render(word, True, (57, 255, 20))
+            text = basicfont.render(word, True, (128, 255, 28))
         textrect = text.get_rect()
         textrect.centerx = self._surface.get_rect().centerx + 30
         textrect.centery = 150
         self._surface.blit(self.thunderCloud, (400,60))
         self._surface.blit(text, textrect)
+
+    def endGame(self):
+        self.endGameImg = pygame.transform.scale(self.endGameImg,(1024,768))
+        self._surface.blit(self.endGameImg,(0,0))
+        pygame.display.flip()
+
+class staticZombieMovement(pygame.sprite.Sprite):
+    def __init__(self):
+        super(staticZombieMovement, self).__init__()
+        self.images = []
+        self.images.append(pygame.image.load('images/walk1.png'))
+        self.images.append(pygame.image.load('images/walk2.png'))
+        self.images.append(pygame.image.load('images/walk3.png'))
+        self.images.append(pygame.image.load('images/walk4.png'))
+        self.index = 0
+        self.image = self.images[self.index]
+        self.rect = pygame.Rect(700, 500, 50, 50)
+
+    def update(self):
+        self.index += 1
+        if self.index >= len(self.images):
+            self.index = 0
+
+        self.image = self.images[self.index]
+        self.image = pygame.transform.scale(self.image,(200,200))
+
+class staticPeterMovement(pygame.sprite.Sprite):
+    def __init__(self):
+        super(staticPeterMovement,self).__init__()
+        self.images = []
+        self.images.append(pygame.image.load('images/mainPeter1.png'))
+        self.images.append(pygame.image.load('images/mainPeter2.png'))
+        self.images.append(pygame.image.load('images/mainPeter3.png'))
+        self.images.append(pygame.image.load('images/mainPeter4.png'))
+        self.index = 0
+        self.image = self.images[self.index]
+        self.rect = pygame.Rect(120,550, 50, 50)
+
+    def update(self):
+        self.index += 1
+        if self.index >= len(self.images):
+            self.index = 0
+
+        self.image = self.images[self.index]
+        self.image = pygame.transform.scale(self.image, (150, 150))
 
 
 if __name__ == '__main__':
