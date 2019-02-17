@@ -13,16 +13,23 @@ class DefenseGameUI:
 
         # current method of choosing zombie = mod by 2 where 0=pink, 1=green
         self._nextZombie = 0
-
+        self.mainMenuEnable = True
         # Images
         self.bg = pygame.image.load('images/background.png')
-        self.castle = pygame.image.load('images/castle.png')
+        self.castle = pygame.image.load('images/castle/castle.png')
         self.menubg = pygame.image.load('images/homeBackground.png')
-        self.mainMenuEnable = True
+
+        self._peterImages = [pygame.image.load('images/peter/peter1.png'), \
+                       pygame.image.load('images/peter/peter2.png'),\
+                       pygame.image.load('images/peter/peter3.png'), \
+                       pygame.image.load('images/peter/peter4.png')]
+
+
         self._zombieImages = [pygame.image.load('images/walk1.png'),\
                               pygame.image.load('images/walk2.png'),\
                               pygame.image.load('images/walk3.png'),\
                               pygame.image.load('images/walk4.png')]
+
         self._greenZombieImages = [
                     pygame.image.load('images/green1.png'),\
                     pygame.image.load('images/green2.png'),\
