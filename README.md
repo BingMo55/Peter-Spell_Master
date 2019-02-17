@@ -3,10 +3,11 @@
     
     How to use:
           1.) First, you must make sure to run at least Python 3.0 and you must have the library needed to run the game.
-                    Library a.) Pygame Library - Instructions for installation can be seen here ->  https://www.webucator.com/blog/2015/03/installing-the-windows-64-bit-version-of-pygame/
+                    Library: 
+                    a.) Pygame Library - Instructions for installation can be seen here ->  https://www.webucator.com/blog/2015/03/installing-the-windows-64-bit-version-of-pygame/
           
           2.) There are two things you must know in order to run the code!
-                      b.) Everything is separated to different classes. Each one may be linked to some other file in the project.
+                            b.) Everything is separated to different classes. Each one may be linked to some other file in the project.
                       Files in the project:
                           1.) DefenseGameUI.py = is a file that holds the GUI and runs the whole game. You can run this file only by having Pygame in the library.
                           2.) DefenseGameState.py = is a file holds the game logic for the game and utilized most of the objects and classes in the game. It runs manipulates most of the object behind the scene.
