@@ -20,11 +20,18 @@ class DefenseGameState:
         self._isAlive = True
 
         self._peterIndex = 0
+        self._activateBolt = False
         
         self._shop = None
 
     def peterIndex(self):
         return self._peterIndex % 4
+
+    def activateBolt(self):
+        return self._activateBolt
+
+    def reverseBolt(self):
+        self._activateBolt = not self._activateBolt
     
     def updatePeterIndex(self):
         index = self._peterIndex
@@ -62,8 +69,8 @@ class DefenseGameState:
             if needMatch.checkIfSolved():
 
                 if charKey == "return":
+                    self.reverseBolt()
                     self._inputStr = ""
-                    self._zombies.remove(self._zombies[0])
                 else:
                     needMatch.makeSolZero()
                     self._inputStr = ""

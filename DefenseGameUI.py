@@ -143,6 +143,10 @@ class DefenseGameUI:
             self._surface.blit(self.bg,(0,0))
             self._surface.blit(self.castle,(0,220))
             self._draw_zombies()
+            if self._state.activateBolt():
+                self._draw_bolt()
+                self._state._zombies.remove(self._state._zombies[0])
+                self._state.reverseBolt()
             self._draw_cloud()
             self._draw_hearts()
             self._draw_peter()
@@ -193,6 +197,14 @@ class DefenseGameUI:
 
     def _draw_brick(self) -> None:
         self._surface.blit(self._brick, (165, 402))
+
+    def _draw_bolt(self) -> None:
+        if len(self._state.getZombies()) > 0:
+            cloud_center = (555, 120)
+            zombie_location = self._state.getZombies()[0].top_left()
+            z_x = self._frac_x_to_pixel_x(zombie_location[0]) + 50
+            z_y = self._frac_y_to_pixel_y(zombie_location[1]) + 25
+            pygame.draw.line(self._surface, (237,192,7), cloud_center, (z_x, z_y), 10)
 
     def _frac_x_to_pixel_x(self, frac_x: float) -> int:
         ''' Convert Fractional Coordinate of X to Pixel X Coordinate '''
