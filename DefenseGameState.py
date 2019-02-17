@@ -34,3 +34,15 @@ class DefenseGameState:
 
     def getZombies(self) -> "list of zombies":
         return self._zombies
+
+    def check_character(self, charKey):
+        ''' Checks the valid character in the Zombie[0] '''
+        if len(self._zombies) > 0:
+            needMatch = self._zombies[0].getWordProblem()
+            print(needMatch.word())
+            needMatch.inputChar(charKey)
+            if needMatch.checkIfSolved():
+                print("is Complete")
+                self._zombies.remove(self._zombies[0])
+        
+        

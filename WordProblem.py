@@ -9,22 +9,21 @@ def getWord() -> str:
     return words[index]
 
 class WordProblem:
-    def __init__(self):
+    def __init__(self, coordX, coordY):
         # word will appear above zombie, thus zombie will generate word
+        self.wordCoord_X = coordX
+        self.wordCoord_Y = coordY
+
         self._word = getWord()
         self._numberSolvedChar = 0
-        self._isSolved = False
 
     def inputChar(self, char):
         '''Add to number of characters solved if character matches the character
             in the current position of the word'''
         if char == self._word[self._numberSolvedChar]:
             self._numberSolvedChar += 1
-            self._checkIfSolved()
-
-    def isSolved(self) -> bool:
-        '''Return True if word has been spelled correctly'''
-        return self._isSolved
+        else:
+            self._numberSolvedChar = 0
 
     def word(self) -> str:
         '''Return the word to solve'''
@@ -36,7 +35,9 @@ class WordProblem:
     def height(self) -> float:
         return _WORDPROBLEM_HEIGHT
 
-    def _checkIfSolved(self):
+    def checkIfSolved(self):
         '''Make word problem solved if the word has been spelled correctly'''
-        if self._numberSolvedChar == len(self._word):
-            self._isSolved = True
+        return self._numberSolvedChar == len(self._word)
+
+    def wordCordXY(self):
+        return (self.wordCoord_X, self.wordCoord_Y)

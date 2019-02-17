@@ -64,7 +64,7 @@ class DefenseGameUI:
                     self.mainMenuEnable = False
         elif event.type == pygame.KEYDOWN:
             stringKey = pygame.key.name(event.key)
-            print(stringKey)
+            self._state.check_character(stringKey)
 
 
 
