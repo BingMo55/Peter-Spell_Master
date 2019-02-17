@@ -18,12 +18,15 @@ class DefenseGameUI:
         self.bg = pygame.image.load('images/background.png')
         self.castle = pygame.image.load('images/castle.png')
         self.mainMenuEnable = True
-        self._zombieImages = [pygame.image.load('images/walk1.png'),\
-                              pygame.image.load('images/walk2.png'),\
-                              pygame.image.load('images/walk3.png'),\
-                              pygame.image.load('images/walk4.png')]
+        self._zombieImages = [pygame.image.load('images/green-zombie/walk1.png'),\
+                              pygame.image.load('images/green-zombie/walk2.png'),\
+                              pygame.image.load('images/green-zombie/walk3.png'),\
+                              pygame.image.load('images/green-zombie/walk4.png')]
 
-        
+        self._greenZombieImages = [pygame.image.load('images/green-zombie/green-zombie1.png'),\
+                              pygame.image.load('images/green-zombie/green-zombie2.png'),\
+                              pygame.image.load('images/green-zombie/green-zombie3.png'),\
+                              pygame.image.load('images/green-zombie/green-zombie4.png')]
 
 
     def run(self) -> None:
