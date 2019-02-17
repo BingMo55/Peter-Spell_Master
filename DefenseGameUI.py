@@ -122,6 +122,7 @@ class DefenseGameUI:
         # WORD RECTANGLE
         # wordRectangle = pygame.Rect(top_left_pixel_x,top_left_pixel_y+20)
         self._draw_text(z,top_left_pixel_x,top_left_pixel_y)
+        self._draw_cloud(word)
 
         z.update()
         self._surface.blit(sendImage, zombieRectangle)
@@ -156,6 +157,15 @@ class DefenseGameUI:
         textrect.centerx = x + 50
         textrect.centery = y - 20
         self._surface.blit(text, textrect)
+
+    def _draw_cloud(self,word):
+        basicfont = pygame.font.Font("Poppins.ttf", 35)
+        text = basicfont.render(word, True, (0, 0, 0), (255, 255, 255))
+        textrect = text.get_rect()
+        textrect.centerx = self._surface.get_rect().centerx
+        textrect.centery = 50
+        self._surface.blit(text, textrect)
+
 
 if __name__ == '__main__':
     DefenseGameUI().run()
