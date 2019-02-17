@@ -1,10 +1,9 @@
 # Peter The SpelL Master - 
-    It's a type-based game coded in Python using Pygame library. In this project, Peter, the Anteater, is a magical being who has the power     to destroy zombies using magical words! Only with his words of wisdom he can save the world?!
+    It's a type-based game coded in Python using Pygame library. In this project, Peter, the Anteater, is a magical being who has the power to destroy zombies using magical words! Only with his words of wisdom he can save the world?!
     
     How to use:
           1.) First, you must make sure to run at least Python 3.0 and you must have the library needed to run the game.
-                    Library:
-                      a.) Pygame Library - Instructions for installation can be seen here ->                                                                                             https://www.webucator.com/blog/2015/03/installing-the-windows-64-bit-version-of-pygame/
+                    Library a.) Pygame Library - Instructions for installation can be seen here ->  https://www.webucator.com/blog/2015/03/installing-the-windows-64-bit-version-of-pygame/
           
           2.) There are two things you must know in order to run the code!
                       b.) Everything is separated to different classes. Each one may be linked to some other file in the project.
