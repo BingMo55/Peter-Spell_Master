@@ -19,6 +19,7 @@ class DefenseGameUI:
         self.bg = pygame.image.load('images/background.png')
         self.castle = pygame.image.load('images/castle/castle.png')
         self.menubg = pygame.image.load('images/homeBackground.png')
+        self.thunderCloud = pygame.image.load('images/thunder.png')
 
         self._peterImages = [pygame.image.load('images/peter/peter1.png'), \
                        pygame.image.load('images/peter/peter2.png'),\
@@ -36,6 +37,7 @@ class DefenseGameUI:
                     pygame.image.load('images/green2.png'),\
                     pygame.image.load('images/green3.png'),\
                     pygame.image.load('images/green4.png')]
+
 
     def run(self) -> None:
         pygame.init()
@@ -172,13 +174,14 @@ class DefenseGameUI:
         self._surface.blit(text, textrect)
 
     def _draw_cloud(self):
+        self.thunderCloud = pygame.transform.scale(self.thunderCloud, (310, 120))
         basicfont = pygame.font.Font("ARCADECLASSIC.ttf", 35)
         word = self._state._inputStr
-
-        text = basicfont.render(word, True, (0, 0, 0))
+        text = basicfont.render(word, True, (255, 255, 255))
         textrect = text.get_rect()
-        textrect.centerx = self._surface.get_rect().centerx
-        textrect.centery = 50
+        textrect.centerx = self._surface.get_rect().centerx + 30
+        textrect.centery = 150
+        self._surface.blit(self.thunderCloud, (400,60))
         self._surface.blit(text, textrect)
 
 
